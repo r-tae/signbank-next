@@ -1,23 +1,35 @@
-import { ValidateProps } from '@/api-lib/constants'
 import { findDictionaryEntryByIdGloss } from '@/api-lib/db'
 import { database } from '@/api-lib/middlewares'
 import { ncOpts } from '@/api-lib/nc'
 import nc from 'next-connect'
+import { ApiRequest, ApiResponse } from 'additional'
+import type { NextApiRequest, NextApiResponse } from 'next'
+
 const handler = nc(ncOpts)
 
 handler.use(database)
 
-handler.get(async (req, res) => {
-  const dictionaryEntry = await findDictionaryEntryByIdGloss(
-    req.db,
-    req.query.idGloss
-  )
-
-  if (!dictionaryEntry) {
-    return res.status(404).json({ error: { message: 'Entry not found.' } })
+interface GetDictionaryEntryRequest extends ApiRequest {
+  query: {
+    idGloss: string
   }
+}
 
-  return res.json({ dictionaryEntry })
-})
+interface GetDictionaryEntryResponse extends ApiResponse {}
+
+handler.get(
+  async (req: GetDictionaryEntryRequest, res: GetDictionaryEntryResponse) => {
+    const dictionaryEntry = await findDictionaryEntryByIdGloss(
+      req.db,
+      req.query.idGloss.toString()
+    )
+
+    if (!dictionaryEntry) {
+      return res.status(404).json({ error: { message: 'Entry not found.' } })
+    }
+
+    return res.json({ dictionaryEntry })
+  }
+)
 
 export default handler

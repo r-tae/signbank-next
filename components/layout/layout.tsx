@@ -5,7 +5,7 @@ import Logo from 'components/logo'
 import Link from 'next/link'
 
 type props = {
-  children: React.Component[]
+  children: JSX.Element | JSX.Element[]
 }
 
 // TODO: create hamburger menu + submenus on dropdown

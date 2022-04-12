@@ -34,7 +34,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "api-lib/middlewares/database.js",
+    "**/*.js",
+    "additional.d.ts",
   ],
   "exclude": ["node_modules"]
 }
