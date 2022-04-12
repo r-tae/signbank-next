@@ -62,11 +62,13 @@ const Layout: FC<props> = ({ children }) => {
         <title>Auslan Signbank</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="absolute min-h-screen w-full overflow-hidden bg-light-cream bg-stone-100">
+      <div className="space-between relative flex min-h-screen w-full flex-col overflow-hidden bg-light-cream">
         <Header />
-        <div className="mb-40 mt-8 flex w-full justify-center">{children}</div>
-        <footer className="absolute bottom-0 flex h-24 w-full items-center justify-center border-t">
-          {/* TODO: add a sitemap or  */}
+        <div className="mt-8 mb-auto flex w-full justify-center">
+          {children}
+        </div>
+        <footer className="bottom-0 mt-8 flex h-24 w-full items-center justify-center border-t">
+          {/* TODO: add a sitemap or */}
           <a
             className="flex items-center justify-center gap-2"
             href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"

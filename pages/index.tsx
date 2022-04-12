@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 
 const Home: NextPage = () => {
   return (
-    <main className="absolute max-w-6xl overflow-visible px-16 xl:px-0">
+    <main className="max-w-6xl overflow-visible px-16 xl:px-0">
       <div className="m-50 mb-8 flex justify-center">
         <Search />
       </div>

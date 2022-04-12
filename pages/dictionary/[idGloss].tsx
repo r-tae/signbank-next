@@ -9,9 +9,10 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
 const DictionaryEntry: NextPage = () => {
-  const router = useRouter()
-  const { idGloss } = router.query
-  const { data, error } = useDictionaryEntry(idGloss!)
+  const { query, isReady } = useRouter()
+  const { idGloss } = query
+
+  const { data, error } = useDictionaryEntry(idGloss as string)
 
   // TODO: write proper error/loading UI
   if (error) return <div>An error occured</div>
@@ -24,7 +25,7 @@ const DictionaryEntry: NextPage = () => {
     (x) => x.partOfSpeech === 'noun'
   )
   return (
-    <main className="absolute max-w-6xl overflow-visible px-16 xl:px-0">
+    <main className="max-w-6xl overflow-visible px-16 xl:px-0">
       <div className="relative">
         <div className="absolute right-0 flex flex-row justify-end gap-4 py-1 pr-8">
           <a

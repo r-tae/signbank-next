@@ -1,4 +1,5 @@
 import { fetcher } from '@/lib/fetch'
+import { useRouter } from 'next/router'
 import useSWR, { SWRResponse } from 'swr'
 
 type DictionaryEntry = {
@@ -20,7 +21,10 @@ type DictionaryEntry = {
 }
 
 export function useDictionaryEntry(
-  idGloss: string | string[]
+  idGloss: string
 ): SWRResponse<{ dictionaryEntry: DictionaryEntry }, any> {
-  return useSWR(`/api/dictionary/${idGloss}`, { refreshInterval: 0 })
+  const { isReady } = useRouter()
+  return useSWR(isReady ? `/api/dictionary/${idGloss}` : null, {
+    refreshInterval: 0,
+  })
 }
