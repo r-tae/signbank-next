@@ -17,6 +17,7 @@ module.exports = {
       current: 'currentColor',
       // TODO: rename custom colours
       cream: '#FFF3C3',
+      'light-cream': '#FFFAED',
       'custom-green': '#2E604D',
       white: colors.white,
       black: colors.black,

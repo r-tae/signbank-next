@@ -15,7 +15,26 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
+    "paths": {
+      "@/components/*": [
+        "components/*"
+      ],
+      "@/page-components/*": [
+        "page-components/*"
+      ],
+      "@/lib/*": [
+        "lib/*"
+      ],
+      "@/api-lib/*": [
+        "api-lib/*"
+      ],
+    },
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "api-lib/middlewares/database.js",
+  ],
   "exclude": ["node_modules"]
 }

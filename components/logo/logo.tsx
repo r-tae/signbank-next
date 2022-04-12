@@ -9,7 +9,7 @@ type props = {
 const Layout: FC<props> = ({ imgClassName, className, ...props }) => {
   return (
     <a className={`flex shrink-0 grow self-end ${className || ''}`} {...props}>
-      <Image
+      <img
         src="/logo.svg"
         alt="Auslan Signbank Logo"
         className={imgClassName}

@@ -62,7 +62,7 @@ const Layout: FC<props> = ({ children }) => {
         <title>Auslan Signbank</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="absolute min-h-screen w-full overflow-hidden bg-stone-100">
+      <div className="absolute min-h-screen w-full overflow-hidden bg-light-cream bg-stone-100">
         <Header />
         <div className="mb-40 mt-8 flex w-full justify-center">{children}</div>
         <footer className="absolute bottom-0 flex h-24 w-full items-center justify-center border-t">
