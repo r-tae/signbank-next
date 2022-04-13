@@ -1,5 +1,6 @@
 import { MongoClient } from 'mongodb'
 import path from 'path'
+import fs from 'fs'
 
 /**
  * Global is used here to maintain a cached connection across hot reloads
