@@ -1,18 +1,14 @@
+import AustraliaRegionMap from '@/components/australia-region-map/australia-region-map'
 import { useDictionaryEntry } from '@/lib/dictionary/hooks'
-import {
-  ArrowLeftIcon,
-  ArrowRightIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from '@heroicons/react/solid'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
 const DictionaryEntry: NextPage = () => {
   const { query, isReady } = useRouter()
-  const { idGloss } = query
+  const { id_gloss } = query
 
-  const { data, error } = useDictionaryEntry(idGloss as string)
+  const { data, error } = useDictionaryEntry(id_gloss as string)
 
   // TODO: write proper error/loading UI
   if (error) return <div>An error occured</div>
@@ -27,7 +23,7 @@ const DictionaryEntry: NextPage = () => {
   return (
     <main className="max-w-6xl overflow-visible px-16 xl:px-0">
       <div className="relative">
-        <div className="absolute right-0 flex flex-row justify-end gap-4 py-1 pr-8">
+        <div className="absolute right-0 flex flex-row justify-end gap-x-4 py-1 pr-8">
           <a
             href="/prev-sign"
             className="border-md h-[1.5em] w-[1.5em] rounded border border-slate-700 bg-white"
@@ -65,24 +61,31 @@ const DictionaryEntry: NextPage = () => {
             </h2>
 
             <div className="flex flex-row flex-wrap gap-2">
-              <video className="w-28 rounded bg-gray-300" src="" />
-              <video className="w-28 rounded bg-gray-300" src="" />
-              <video className="w-28 rounded bg-gray-300" src="" />
+              <video className="w-28 rounded bg-slate-300" src="" />
+              <video className="w-28 rounded bg-slate-300" src="" />
+              <video className="w-28 rounded bg-slate-300" src="" />
             </div>
           </div>
-          <div>
-            <h2>Sign distribution</h2>
-            <p className="text-sm">Australia-wide traditional</p>
+          <div className="align-center my-4 flex flex-row items-center justify-center">
+            <div>
+              <h2 className="font-quicksand font-bold">Sign distribution</h2>
+              <p className="text-sm">Australia-wide traditional</p>
+            </div>
+            <div className="w-50%">
+              <AustraliaRegionMap select={data.dictionaryEntry.region} />
+            </div>
           </div>
         </div>
         <div className="md:mt-10">
           <div className="min-w-[40ch] rounded border border-black bg-stone-50 px-8 py-4">
-            <h2 className="text-lg font-bold">Auslan definition</h2>
+            <h2 className="font-quicksand text-lg font-bold">
+              Auslan definition
+            </h2>
             <video className="mb-4 w-44 rounded bg-gray-300" src="" />
 
             {nouns && (
               <>
-                <h2 className="text-lg font-bold">As a noun</h2>
+                <h2 className="font-quicksand text-lg font-bold">As a noun</h2>
                 <ol className="ml-4 list-outside list-[arabic]">
                   {nouns.map((x) => (
                     <li key={x.text} className="pb-2">
@@ -94,7 +97,7 @@ const DictionaryEntry: NextPage = () => {
             )}
             {verbs && (
               <>
-                <h2 className="text-lg font-bold">As a verb</h2>
+                <h2 className="font-quicksand text-lg font-bold">As a verb</h2>
                 <ol className="ml-4 list-outside list-[arabic]">
                   {verbs.map((x) => (
                     <li key={x.text} className="pb-2">
@@ -105,6 +108,10 @@ const DictionaryEntry: NextPage = () => {
               </>
             )}
           </div>
+          <div className="float-right mt-2 pr-4 text-slate-600">
+            <a className="pr-4 underline">Report missing sign</a>
+            <a className="underline">Give feedback on this entry</a>
+          </div>
         </div>
         <div>
           {/* <p>{data.dictionaryEntry.idGloss}</p>
@@ -114,10 +121,6 @@ const DictionaryEntry: NextPage = () => {
         <p>{data.dictionaryEntry.subordinateHandshape.initial}</p>
       <p>{data.dictionaryEntry.subordinateHandshape.final}</p> */}
         </div>
-      </div>
-      <div className="float-right mt-2 pr-8 text-slate-600">
-        <a className="pr-4 underline">Report missing sign</a>
-        <a className="underline">Give feedback on this entry</a>
       </div>
     </main>
   )

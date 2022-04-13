@@ -1,3 +1,5 @@
+/// <reference types="next-react-svg" />
+
 import { Db } from 'mongodb'
 import { NextRequest, NextResponse } from 'next/server'
 import { NextApiRequest, NextApiResponse } from 'next'

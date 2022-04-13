@@ -18,6 +18,7 @@ type DictionaryEntry = {
     text: string
     partOfSpeech: string
   }[]
+  region: string
 }
 
 export function useDictionaryEntry(

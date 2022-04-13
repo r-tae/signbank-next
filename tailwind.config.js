@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['Lato', ...defaultTheme.fontFamily.sans],
+        quicksand: ['Quicksand', ...defaultTheme.fontFamily.sans],
       },
     },
     colors: {
