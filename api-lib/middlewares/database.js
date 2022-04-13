@@ -38,8 +38,20 @@ export async function getMongoClient() {
 }
 
 export default async function database(req, res, next) {
+  let mongoOptions = {}
+  if (process.env.NODE_ENV === 'production') {
+    let mongoCertPath = path.resolve('./ca-certificate.crt')
+    if (process.env.CA_CERT) {
+      fs.writeFileSync(mongoCertPath, process.env.CA_CERT)
+    }
+    mongoOptions.sslCA = mongoCertPath
+  }
+
   if (!global.mongo.client) {
-    global.mongo.client = new MongoClient(process.env.MONGO_URI)
+    global.mongo.client = new MongoClient(
+      process.env.DATABASE_URL,
+      mongoOptions
+    )
   }
   req.dbClient = await getMongoClient()
   req.db = req.dbClient.db() // this use the database specified in the MONGODB_URI (after the "/")
