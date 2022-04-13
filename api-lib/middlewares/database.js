@@ -15,15 +15,20 @@ async function createIndexes(db) {
 }
 
 export async function getMongoClient() {
-  let mongoCertPath = path.resolve('./ca-certificate.crt')
-  if (process.env.CA_CERT) {
-    fs.writeFileSync(mongoCertPath, process.env.CA_CERT)
+  let mongoOptions = {}
+  if (process.env.NODE_ENV === 'production') {
+    let mongoCertPath = path.resolve('./ca-certificate.crt')
+    if (process.env.CA_CERT) {
+      fs.writeFileSync(mongoCertPath, process.env.CA_CERT)
+    }
+    mongoOptions.sslCA = mongoCertPath
   }
 
   if (!global.mongo.client) {
-    global.mongo.client = new MongoClient(process.env.DATABASE_URL, {
-      sslCA: mongoCertPath,
-    })
+    global.mongo.client = new MongoClient(
+      process.env.DATABASE_URL,
+      mongoOptions
+    )
   }
   // It is okay to call connect() even if it is connected
   // using node-mongodb-native v4 (it will be no-op)
