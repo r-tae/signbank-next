@@ -15,6 +15,21 @@ g {
 
 
 /* Dialects */
+.australia_map_svg__select_aus #VIC,
+.australia_map_svg__select_aus #SA,
+.australia_map_svg__select_aus #Kangaroo-Island,
+.australia_map_svg__select_aus #WA,
+.australia_map_svg__select_aus #TAS,
+.australia_map_svg__select_aus #NT,
+.australia_map_svg__select_aus #Groote-Eyland,
+.australia_map_svg__select_aus #Melville-Island,
+.australia_map_svg__select_aus #QLD,
+.australia_map_svg__select_aus #NSW,
+.australia_map_svg__select_aus #ACT,
+
+
+
+
 .australia_map_svg__select_nth #QLD,
 .australia_map_svg__select_nth #NSW,
 .australia_map_svg__select_nth #ACT,

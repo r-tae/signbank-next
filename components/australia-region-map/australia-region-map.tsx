@@ -16,6 +16,7 @@ const regionSelections: { [key: string]: string } = {
   QLD: 'select_qld',
   NSW: 'select_nsw',
   TAS: 'select_tas',
+  AUS: 'select_aus',
 }
 
 /* namespace */

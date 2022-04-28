@@ -38,7 +38,7 @@ const FakeMenu = () => (
 //       margin (10vw) plus a constant amount (`w-[calc(10vw + 3em)]` with `min-w-20-or-so`)
 const Header = () => (
   <div className="flex min-h-[90px] w-full flex-row justify-center bg-custom-green text-cream lg:min-h-[120px]">
-    <div className="flex w-3/4 max-w-6xl flex-row pb-8">
+    <div className="mt-7 flex w-3/4 max-w-6xl flex-row pb-8 lg:mt-0">
       <Link href="/" passHref>
         <Logo
           className="h-10 shrink-0 basis-[140px] lg:h-20 lg:basis-[290px]"
@@ -50,7 +50,9 @@ const Header = () => (
       </ul>
     </div>
     <Link href="/login">
-      <a className="relative top-6 right-28">Login/Register</a>
+      <a className="relative right-[calc(5vw_-_3em)] top-3 h-fit lg:top-6">
+        Login/Register
+      </a>
     </Link>
   </div>
 )
@@ -75,8 +77,13 @@ const Layout: FC<props> = ({ children }) => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Powered by{' '}
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
+            Supported by{' '}
+            <Image
+              src="/monash.png"
+              alt="Vercel Logo"
+              width={110}
+              height={45}
+            />
           </a>
         </footer>
       </div>

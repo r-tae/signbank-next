@@ -5,7 +5,7 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
 const DictionaryEntry: NextPage = () => {
-  const { query, isReady } = useRouter()
+  const { query, isReady: _isReady } = useRouter()
   const { id_gloss } = query
 
   const { data, error } = useDictionaryEntry(id_gloss as string)
@@ -83,7 +83,7 @@ const DictionaryEntry: NextPage = () => {
             </h2>
             <video className="mb-4 w-44 rounded bg-gray-300" src="" />
 
-            {nouns && (
+            {nouns.length > 0 && (
               <>
                 <h2 className="font-quicksand text-lg font-bold">As a noun</h2>
                 <ol className="ml-4 list-outside list-[arabic]">
@@ -95,7 +95,7 @@ const DictionaryEntry: NextPage = () => {
                 </ol>
               </>
             )}
-            {verbs && (
+            {verbs.length > 0 && (
               <>
                 <h2 className="font-quicksand text-lg font-bold">As a verb</h2>
                 <ol className="ml-4 list-outside list-[arabic]">
