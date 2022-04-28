@@ -11,3 +11,9 @@ certs/ca-certificate.crt
 ```
 
 or for a `CA_CERT` environment variable
+
+## Testing
+
+Signbank Next's testing stack is Cypress (End-to-End testing framework), `axe` (accessibility testing) and BrowserStack (cross-browser testing) for testing.
+
+You will need:
