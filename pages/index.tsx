@@ -1,7 +1,11 @@
+import { useEffect } from 'react'
 import Search from 'components/search'
 import type { NextPage } from 'next'
+import { HeaderContext, useHeaderContext } from 'components/layout'
 
 const Home: NextPage = () => {
+  const { showSearchBar, setShowSearchBar } = useHeaderContext()
+
   return (
     <main className="max-w-6xl overflow-visible px-16 xl:px-0">
       <div className="m-50 mb-8 flex justify-center">
@@ -14,7 +18,7 @@ const Home: NextPage = () => {
               Welcome to{' '}
               <a
                 className="relative text-yellow-300 hover:text-yellow-400"
-                href="https://auslan.org.au"
+                href="#"
               >
                 Auslan Signbank
               </a>
