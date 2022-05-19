@@ -26,7 +26,7 @@ jobs:
           command: unzip BrowserStackLocal-linux-x64.zip
       - run:
           name: Run browserstack local binary
-          command: .BrowserStackLocal $BROWSERSTACK_ACCESS_KEY
+          command: ./BrowserStackLocal $BROWSERSTACK_ACCESS_KEY
           background: true
       - run:
           name: Run unit tests
