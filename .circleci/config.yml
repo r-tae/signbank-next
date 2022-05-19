@@ -17,7 +17,7 @@ jobs:
     steps:
       - checkout
       - node/install-packages
-        pkg-manager: yarn
+          pkg-manager: yarn
       - run:
           name: Download browserstack local binary
           command: wget "https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip"
