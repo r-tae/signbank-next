@@ -1,5 +1,6 @@
 {
   "private": true,
+  "//": "TODO: make a test script to run unit tests",
   "scripts": {
     "dev": "next dev",
     "dev:inspect": "NODE_OPTIONS='--inspect' next dev",

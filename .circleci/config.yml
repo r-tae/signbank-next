@@ -2,21 +2,41 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs:
+  node: circleci/node@5.0.2
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  say-hello:
+  build_and_test:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
-    docker:
-      - image: cimg/base:stable
+    executor: node/default
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
+      - node/install-packages
+        pkg-manager: yarn
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: Download browserstack local binary
+          command: wget "https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip"
+      - run:
+          name: Unzip browserstack local binary
+          command: unzip BrowserStackLocal-linux-x64.zip
+      - run:
+          name: Run browserstack local binary
+          command: .BrowserStackLocal $BROWSERSTACK_ACCESS_KEY
+          background: true
+      - run:
+          name: Run unit tests
+          command: yarn test
+      - run:
+          name: Build app
+          command: yarn build
+      - persist_to_workspace:
+          root: ~/project
+          paths: .
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
