@@ -17,13 +17,19 @@ async function createIndexes(db) {
 }
 
 export async function getMongoClient() {
+  // HACK: dedup this code
+  let certPath = './certs/ca-certificate.crt'
   let mongoOptions = {}
-  if (process.env.NODE_ENV === 'production') {
-    let mongoCertPath = path.resolve('./ca-certificate.crt')
+
+  if (!fs.existsSync(certPath)) {
     if (process.env.CA_CERT) {
-      fs.writeFileSync(mongoCertPath, process.env.CA_CERT)
+      fs.writeFileSync(path.resolve(certPath), process.env.CA_CERT)
+      mongoOptions.tlsCAFile = certPath
+    } else {
+      throw new Error(
+        'No CA certificate exists and the CA_CERT environment variable is not present; MongoDB will not be able to connect.'
+      )
     }
-    mongoOptions.sslCA = mongoCertPath
   }
 
   if (!global.mongo.client) {
@@ -40,21 +46,24 @@ export async function getMongoClient() {
 }
 
 export default async function database(req, res, next) {
-  let mongoOptions = {}
-  if (process.env.NODE_ENV === 'production') {
-    let mongoCertPath = path.resolve('./ca-certificate.crt')
+  let mongoCertPath = path.resolve('./certs/ca-certificate.crt')
+
+  if (!fs.existsSync(mongoCertPath)) {
     if (process.env.CA_CERT) {
       fs.writeFileSync(mongoCertPath, process.env.CA_CERT)
+    } else {
+      throw new Error(
+        'No CA certificate exists and the CA_CERT environment variable is not present; MongoDB will not be able to connect.'
+      )
     }
-    mongoOptions.sslCA = mongoCertPath
   }
 
   if (!global.mongo.client) {
-    global.mongo.client = new MongoClient(
-      process.env.DATABASE_URL,
-      mongoOptions
-    )
+    global.mongo.client = new MongoClient(process.env.DATABASE_URL, {
+      tlsCAFile: './certs/ca-certificate.crt',
+    })
   }
+
   req.dbClient = await getMongoClient()
   req.db = req.dbClient.db() // this use the database specified in the MONGODB_URI (after the "/")
   if (!indexesCreated) await createIndexes(req.db)

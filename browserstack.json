@@ -1,0 +1,26 @@
+{
+  "auth": {
+    "username": "riversmith_2RtMW8",
+    "access_key": "6eqsT33joK2i1xKyf29s"
+  },
+  "browsers": [
+    {
+      "browser": "chrome",
+      "os": "Windows 10",
+      "versions": ["latest", "latest-1"]
+    }
+  ],
+  "run_settings": {
+    "cypress_config_file": "cypress.json",
+    "project_name": "signbank-next",
+    "build_name": "Build no. 1",
+    "exclude": [],
+    "parallels": "5",
+    "npm_dependencies": {},
+    "package_config_options": {},
+    "headless": true
+  },
+  "connection_settings": {
+    "local": true
+  }
+}
