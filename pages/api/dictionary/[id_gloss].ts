@@ -5,10 +5,10 @@ import nc from 'next-connect'
 import { ApiRequest, ApiResponse } from 'additional'
 import formidable from 'formidable'
 import AWS from 'aws-sdk'
-import fs from 'fs'
 
 const handler = nc(ncOpts)
 
+// TODO: move this into middleware
 const s3Client = new AWS.S3({
   endpoint: process.env.DO_SPACES_URL,
   region: 'sgp1',
