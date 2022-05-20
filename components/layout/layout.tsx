@@ -41,7 +41,7 @@ const SearchBar = () => {
   const [query, setQuery] = useState('')
   const router = useRouter()
 
-  const handleChange = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.currentTarget.value)
   }
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -88,7 +88,13 @@ export const useHeaderContext = () => React.useContext(HeaderContext)
 // TODO: switch to hamburger menu below md
 // TODO: the login/register link should be anchored to the top of the screen, offset from the right by the extra
 //       margin (10vw) plus a constant amount (`w-[calc(10vw + 3em)]` with `min-w-20-or-so`)
-const Header = ({ toggleMenu, menuOpen }) => {
+const Header = ({
+  toggleMenu,
+  menuOpen,
+}: {
+  toggleMenu: any
+  menuOpen: boolean
+}) => {
   const [showSearchBar, setShowSearchBar] = useState(true)
 
   return (

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import Search from 'components/search'
+import { Search } from 'components/search'
 import type { NextPage } from 'next'
 import { HeaderContext, useHeaderContext } from 'components/layout'
 

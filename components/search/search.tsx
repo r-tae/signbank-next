@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 
 type props = {}
 
-const Search: FC<props> = () => {
+export const Search: FC<props> = () => {
   const [query, setQuery] = useState('')
   const router = useRouter()
 
@@ -38,5 +38,3 @@ const Search: FC<props> = () => {
     </div>
   )
 }
-
-export default Search
