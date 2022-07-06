@@ -9,7 +9,9 @@ export const SearchResult = ({ data }: { data: any }) => {
           {/* TODO: use real url */}
           <video
             className="w-48 rounded"
-            src="https://media.auslan.org.au/mp4video/36/36460_1.mp4"
+            src={`https://media.auslan.org.au/${
+              data?.videos?.sort((a, b) => a.version > b.version)[0].url
+            }`}
           />
           {data.keywords.map(
             (x: { text: string }, index: number) => (index ? ', ' : '') + x.text

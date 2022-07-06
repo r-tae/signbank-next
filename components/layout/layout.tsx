@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import Logo from 'components/logo'
 import Link from 'next/link'
-import Search from 'components/search'
+import { Search } from 'components/search'
 import { useRouter } from 'next/router'
 import { SearchIcon } from '@heroicons/react/solid'
 import { MenuIcon } from '@heroicons/react/outline'
@@ -51,7 +51,7 @@ const SearchBar = () => {
   }
 
   return (
-    <div className="border-1 text-md flex h-12 w-full self-end overflow-hidden rounded-sm border-cream bg-black text-black">
+    <div className="border-1 text-md invisible flex h-12 w-full self-end overflow-hidden rounded-sm border-cream bg-black text-black">
       <input
         type="text"
         className="w-full p-2"
@@ -69,7 +69,12 @@ const SearchBar = () => {
   )
 }
 
-export const HeaderContext = React.createContext({
+type HeaderContextType = {
+  showSearchBar: boolean
+  setShowSearchBar: (newValue: boolean) => void
+}
+
+export const HeaderContext = React.createContext<HeaderContextType>({
   showSearchBar: false,
   setShowSearchBar: () => {},
 })
@@ -111,8 +116,8 @@ const Header = ({
             {showSearchBar ? (
               <div className="flex flex-row">
                 <SearchBar />
-                <a onClick={toggleMenu}>
-                  <MenuIcon className="h-14" />
+                <a onClick={toggleMenu} className="self-end">
+                  <MenuIcon className="h-14 self-end" />
                 </a>
               </div>
             ) : (

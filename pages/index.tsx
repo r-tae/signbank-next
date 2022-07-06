@@ -52,11 +52,11 @@ const Home: NextPage = () => {
           <section className="flex min-w-fit shrink grow basis-[12rem] justify-end">
             <video controls muted>
               <source
-                src="https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.webm"
+                src="https://media.auslan.org.au/mp4video/38/38550_1.mp4"
                 type="video/webm"
               />
               <source
-                src="https://storage.googleapis.com/web-dev-assets/video-and-source-tags/chrome.mp4"
+                src="https://media.auslan.org.au/mp4video/38/38550_1.mp4"
                 type="video/mp4"
               />
               <p>Your browser cannot play the provided video file.</p>

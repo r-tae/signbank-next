@@ -1,0 +1,62 @@
+# NOTE: this file is overridden for development by docker-compose.override.yml
+version: '3.8'
+
+services:
+  # TODO add nginx and app containers
+  nginx:
+    image: nginx:latest
+    ports:
+      - '80:80'
+      - '443:443'
+    restart: always
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+      #command: tail -f /dev/null
+
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./cerbot/conf/:/etc/letsencrypt/:rw
+
+  db:
+    image: mongo:latest # TODO: insert actual mongo image name
+    hostname: db
+    tty: true
+    environment:
+      TERM: 'xterm-256color'
+      # TODO: insert envvars for username password etc
+      # TODO: insert envvars for storing database on volume
+    volumes:
+      - ./data:/data/db
+    ports:
+      - '27017:27017'
+
+  # TODO: figure out what will work for a production environment later
+  web:
+    container_name: web
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - '3000:3000'
+    working_dir: /app
+    command: yarn dev
+    environment:
+      PORT: 3000
+    # hot reloading config
+
+volumes:
+  nodemodules:
+  mongodb:
+  mongodb_config: # TODO: don't know if this is necessary
+

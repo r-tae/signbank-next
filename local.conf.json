@@ -1,3 +1,5 @@
-const capabilities = {
- 'browserstack.local': 'true'
+{
+  "capabilities": {
+    "browserstack.local": "true"
+  }
 }

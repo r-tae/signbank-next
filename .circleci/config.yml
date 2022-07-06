@@ -8,16 +8,25 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  build_and_test:
+  build:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+  unit_tests:
+    executor: node/default
+    steps:
+      - run:
+          name: Run unit tests
+          command: yarn test
+  integration_tests:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     executor: node/default
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: yarn
       - run:
           name: Download browserstack local binary
           command: wget "https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip"
@@ -29,8 +38,10 @@ jobs:
           command: ./BrowserStackLocal $BROWSERSTACK_ACCESS_KEY
           background: true
       - run:
-          name: Run unit tests
-          command: yarn test
+          name: Run integration tests
+          command:
+            yarn cypress:ci
+            # TODO: somethings weird here
       - run:
           name: Build app
           command: yarn build
@@ -41,6 +52,13 @@ jobs:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  say-hello-workflow:
+  integration_tests:
     jobs:
-      - build_and_test
+      - build
+      # Run unit and integration tests in parallel
+      - unit_tests:
+          requires:
+            - build
+      - integration_tests:
+          requires:
+            - build

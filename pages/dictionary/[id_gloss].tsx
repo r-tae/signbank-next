@@ -1,6 +1,10 @@
 import AustraliaRegionMap from '@/components/australia-region-map/australia-region-map'
 import { useDictionaryEntry } from '@/lib/dictionary/hooks'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/solid'
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  InformationCircleIcon,
+} from '@heroicons/react/solid'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 
@@ -10,16 +14,20 @@ const DictionaryEntry: NextPage = () => {
 
   const { data, error } = useDictionaryEntry(id_gloss as string)
 
+  const staticFilesHost = 'https://media.auslan.org.au/'
+
   // TODO: write proper error/loading UI
   if (error) return <div>An error occured</div>
   if (!data) return <div>loading...</div>
 
-  const verbs = data.dictionaryEntry.definitions.filter(
-    (x) => x.partOfSpeech === 'verb'
-  )
-  const nouns = data.dictionaryEntry.definitions.filter(
-    (x) => x.partOfSpeech === 'noun'
-  )
+  const verbs =
+    data?.dictionaryEntry?.definitions?.filter(
+      (x) => x.partOfSpeech === 'verb'
+    ) || []
+  const nouns =
+    data?.dictionaryEntry?.definitions?.filter(
+      (x) => x.partOfSpeech === 'noun'
+    ) || []
   return (
     <main className="max-w-6xl overflow-visible px-16 xl:px-0">
       <div className="relative">
@@ -41,16 +49,23 @@ const DictionaryEntry: NextPage = () => {
       </div>
       <div className="flex flex-col gap-4 md:flex-row">
         <div className="min-w-[36ch]">
+          {/* TODO: get autoplay working properly */}
+          {/* TODO: show other versions somehow if logged in with an editor role */}
           <video
             className="mb-1 mt-10 w-full rounded bg-gray-300 md:mt-0"
-            src=""
+            src={`${staticFilesHost}${
+              data.dictionaryEntry.videos.sort(
+                (a, b) => a.version > b.version
+              )[0].url
+            }`}
           />
           <div className="mb-4">
             <strong>Keywords:</strong>{' '}
             {data.dictionaryEntry.keywords.map((x, index) => (
               <span key={x.text}>
                 {index ? ', ' : ''}
-                {x.primary ? <strong>{x.text}</strong> : <span>{x.text}</span>}
+                {/* TODO: change this so the search query highlighted */}
+                <span>{x.text}</span>
               </span>
             ))}
           </div>
@@ -69,10 +84,33 @@ const DictionaryEntry: NextPage = () => {
           <div className="align-center my-4 flex flex-row items-center justify-center">
             <div>
               <h2 className="font-quicksand font-bold">Sign distribution</h2>
-              <p className="text-sm">Australia-wide traditional</p>
+              <p className="text-sm">
+                {data.dictionaryEntry.language.region === 'AUS'
+                  ? 'Australia-wide'
+                  : data.dictionaryEntry.language.region === 'NTH'
+                  ? 'Northern Dialect'
+                  : data.dictionaryEntry.language.region === 'STH'
+                  ? 'Southern Dialect'
+                  : data.dictionaryEntry.language.region === 'VIC'
+                  ? 'Victoria'
+                  : data.dictionaryEntry.language.region === 'QLD'
+                  ? 'Queensland'
+                  : data.dictionaryEntry.language.region === 'TAS'
+                  ? 'Tasmania'
+                  : data.dictionaryEntry.language.region === 'NT'
+                  ? 'Northern Territory'
+                  : data.dictionaryEntry.language.region === 'NSW'
+                  ? 'New South Wales'
+                  : data.dictionaryEntry.language.region === 'WA'
+                  ? 'Western Australia'
+                  : 'Unknown region'}{' '}
+                {data.dictionaryEntry.language.traditional && 'traditional'}
+              </p>
             </div>
             <div className="w-50%">
-              <AustraliaRegionMap select={data.dictionaryEntry.region} />
+              <AustraliaRegionMap
+                select={data.dictionaryEntry.language.region}
+              />
             </div>
           </div>
         </div>
@@ -82,29 +120,42 @@ const DictionaryEntry: NextPage = () => {
               Auslan definition
             </h2>
             <video className="mb-4 w-44 rounded bg-gray-300" src="" />
-
-            {nouns.length > 0 && (
+            {/* HACK: this should be cleaner */}
+            {[...nouns, ...verbs].length === 0 ? (
+              <div>
+                <InformationCircleIcon className="inline h-5 -translate-y-[13%] fill-slate-600" />
+                This sign has no definitions.
+              </div>
+            ) : (
               <>
-                <h2 className="font-quicksand text-lg font-bold">As a noun</h2>
-                <ol className="ml-4 list-outside list-[arabic]">
-                  {nouns.map((x) => (
-                    <li key={x.text} className="pb-2">
-                      {x.text}
-                    </li>
-                  ))}
-                </ol>
-              </>
-            )}
-            {verbs.length > 0 && (
-              <>
-                <h2 className="font-quicksand text-lg font-bold">As a verb</h2>
-                <ol className="ml-4 list-outside list-[arabic]">
-                  {verbs.map((x) => (
-                    <li key={x.text} className="pb-2">
-                      {x.text}
-                    </li>
-                  ))}
-                </ol>
+                {nouns.length > 0 && (
+                  <>
+                    <h2 className="font-quicksand text-lg font-bold">
+                      As a noun
+                    </h2>
+                    <ol className="ml-4 list-outside list-[arabic]">
+                      {nouns.map((x) => (
+                        <li key={x.text} className="pb-2">
+                          {x.text}
+                        </li>
+                      ))}
+                    </ol>
+                  </>
+                )}
+                {verbs.length > 0 && (
+                  <>
+                    <h2 className="font-quicksand text-lg font-bold">
+                      As a verb
+                    </h2>
+                    <ol className="ml-4 list-outside list-[arabic]">
+                      {verbs.map((x) => (
+                        <li key={x.text} className="pb-2">
+                          {x.text}
+                        </li>
+                      ))}
+                    </ol>
+                  </>
+                )}
               </>
             )}
           </div>

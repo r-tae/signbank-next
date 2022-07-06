@@ -6,4 +6,5 @@ module.exports = withReactSvg({
   webpack(config, options) {
     return config
   },
+  output: 'standalone',
 })

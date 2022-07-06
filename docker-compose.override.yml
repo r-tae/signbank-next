@@ -1,0 +1,13 @@
+# TODO: double check this file has everything
+services:
+  nginx:
+    volumes:
+      - ./nginx/dev_conf/:/etc/nginx/conf.d/:ro
+  certbot:
+    # NOTE: effectively disables certbot
+    image: 'tianon/true'
+    command: ''
+  web:
+    ports: []
+    #command: yarn dev
+    # NOTE: add any other dev-only settings here
