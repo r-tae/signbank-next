@@ -7,6 +7,26 @@ import {
 } from '@heroicons/react/solid'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
+import { FormattedMessage } from 'react-intl'
+
+const Region = ({ language }) => {
+  return (
+    <div className="align-center my-4 flex flex-row items-center justify-center">
+      <div>
+        <h2 className="font-quicksand font-bold">Sign distribution</h2>
+        <p className="text-sm">
+          <FormattedMessage
+            id={`human-readable-region-name__${language.region}`}
+          />{' '}
+          {language.traditional && 'traditional'}
+        </p>
+      </div>
+      <div className="w-50%">
+        <AustraliaRegionMap select={language.region} />
+      </div>
+    </div>
+  )
+}
 
 const DictionaryEntry: NextPage = () => {
   const { query, isReady: _isReady } = useRouter()
@@ -81,38 +101,7 @@ const DictionaryEntry: NextPage = () => {
               <video className="w-28 rounded bg-slate-300" src="" />
             </div>
           </div>
-          <div className="align-center my-4 flex flex-row items-center justify-center">
-            <div>
-              <h2 className="font-quicksand font-bold">Sign distribution</h2>
-              <p className="text-sm">
-                {data.dictionaryEntry.language.region === 'AUS'
-                  ? 'Australia-wide'
-                  : data.dictionaryEntry.language.region === 'NTH'
-                  ? 'Northern Dialect'
-                  : data.dictionaryEntry.language.region === 'STH'
-                  ? 'Southern Dialect'
-                  : data.dictionaryEntry.language.region === 'VIC'
-                  ? 'Victoria'
-                  : data.dictionaryEntry.language.region === 'QLD'
-                  ? 'Queensland'
-                  : data.dictionaryEntry.language.region === 'TAS'
-                  ? 'Tasmania'
-                  : data.dictionaryEntry.language.region === 'NT'
-                  ? 'Northern Territory'
-                  : data.dictionaryEntry.language.region === 'NSW'
-                  ? 'New South Wales'
-                  : data.dictionaryEntry.language.region === 'WA'
-                  ? 'Western Australia'
-                  : 'Unknown region'}{' '}
-                {data.dictionaryEntry.language.traditional && 'traditional'}
-              </p>
-            </div>
-            <div className="w-50%">
-              <AustraliaRegionMap
-                select={data.dictionaryEntry.language.region}
-              />
-            </div>
-          </div>
+          <Region language={data.dictionaryEntry.language} />
         </div>
         <div className="md:mt-10">
           <div className="min-w-[40ch] rounded border border-black bg-stone-50 px-8 py-4">

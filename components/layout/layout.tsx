@@ -44,14 +44,19 @@ const SearchBar = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.currentTarget.value)
   }
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      router.push(`/search/${query}`)
+      handleSearch()
     }
   }
 
+  const handleSearch = () => {
+    if (query) router.push(`/search/${query}`)
+  }
+
   return (
-    <div className="border-1 text-md invisible flex h-12 w-full self-end overflow-hidden rounded-sm border-cream bg-black text-black">
+    <div className="border-1 text-md flex h-12 w-full self-end overflow-hidden rounded-sm border-cream bg-black text-black">
       <input
         type="text"
         className="w-full p-2"
@@ -60,6 +65,7 @@ const SearchBar = () => {
         placeholder="Search..."
         value={query}
       />
+      {/* TODO: prevent searching by click with no query */}
       <Link href={`/search/${query}`}>
         <a className="align-end flex h-full bg-white">
           <SearchIcon className="m-4 h-1/2 self-center text-black" />
