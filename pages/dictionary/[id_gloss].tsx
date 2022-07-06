@@ -11,12 +11,13 @@ import { FormattedMessage } from 'react-intl'
 
 const Region = ({ language }) => {
   return (
-    <div className="align-center my-4 flex flex-row items-center justify-center">
+    <div className="align-center my-4 flex flex-row items-center justify-center gap-4">
       <div>
         <h2 className="font-quicksand font-bold">Sign distribution</h2>
         <p className="text-sm">
           <FormattedMessage
             id={`human-readable-region-name__${language.region}`}
+            defaultMessage="Unknown"
           />{' '}
           {language.traditional && 'traditional'}
         </p>
