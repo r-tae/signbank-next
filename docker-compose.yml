@@ -53,10 +53,8 @@ services:
     command: yarn dev
     environment:
       PORT: 3000
-    # hot reloading config
 
-volumes:
-  nodemodules:
-  mongodb:
-  mongodb_config: # TODO: don't know if this is necessary
+#volumes:
+  #mongodb:
+  #mongodb_config: # TODO: don't know if this is necessary
 

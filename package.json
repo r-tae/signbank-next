@@ -10,7 +10,8 @@
     "lint:write": "./node_modules/.bin/next lint --cache --fix",
     "prepare": "./node_modules/.bin/husky install",
     "cypress:open": "./node_modules/.bin/cypress open",
-    "cypress:ci": "./node_modules/.bin/cypress run"
+    "cypress:ci": "./node_modules/.bin/cypress run",
+    "i18n:extract": "formatjs extract"
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",
@@ -31,9 +32,11 @@
     "tsconfig-paths": "^3.14.1"
   },
   "devDependencies": {
+    "@formatjs/cli": "^5.0.2",
     "@types/node": "^17.0.23",
     "@types/react": "17.0.38",
     "autoprefixer": "^10.4.0",
+    "babel-plugin-formatjs": "^10.3.25",
     "cypress": "^9.6.0",
     "eslint": "8.12.0",
     "eslint-config-next": "12.1.4",

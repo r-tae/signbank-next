@@ -22,7 +22,7 @@ const regionSelections: { [key: string]: string } = {
 /* namespace */
 const SVG_CSS_PREFIX = 'australia_map_svg__'
 
-const AustraliaRegionMap: FC<Props> = ({ select, className }) => {
+export const AustraliaRegionMap: FC<Props> = ({ select, className }) => {
   return (
     <MapSvg
       className={`${SVG_CSS_PREFIX}${regionSelections[select]} ${
@@ -31,5 +31,3 @@ const AustraliaRegionMap: FC<Props> = ({ select, className }) => {
     />
   )
 }
-
-export default AustraliaRegionMap
