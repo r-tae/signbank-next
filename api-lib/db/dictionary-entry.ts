@@ -1,4 +1,4 @@
-import { DictionaryEntry } from '@/lib/dictionary/hooks'
+import { DictionaryEntry } from '@/types/entry'
 import { Db } from 'mongodb'
 
 export async function findDictionaryEntryByIdGloss(db: Db, idGloss: string) {

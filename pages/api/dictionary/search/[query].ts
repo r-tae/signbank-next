@@ -6,7 +6,7 @@ import { ncOpts } from '@/api-lib/nc'
 import nc from 'next-connect'
 import { database } from '@/api-lib/middlewares'
 // HACK: move types to types folder
-import { DictionaryEntry } from '@/lib/dictionary/hooks'
+import { DictionaryEntry } from '@/types/entry'
 
 const handler = nc(ncOpts)
 handler.use(database)
