@@ -17,10 +17,29 @@ services:
 
   certbot:
     image: certbot/certbot:latest
+    profiles: ['prod']
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./cerbot/conf/:/etc/letsencrypt/:rw
 
+  # NOTE: this does not work on m1 macs, cypress is working on it, but it seems like it depends upon chrome creating a linux/arm64 release, which is unlikely
+  cypress:
+    image: cypress/included:10.3.0
+    platform: "linux/amd64"
+    profiles: ['test']
+      #entrypoint: cypress open --project /
+    depends_on:
+      - web
+    environment:
+      CYPRESS_baseUrl: http://web:3000 # this bypasses nginx, I'm not sure if this is a good idea
+    working_dir: /e2e
+    volumes:
+      - ./:/e2e
+      #- ./cypress:/app/cypress
+      #- ./cypress.config.js:/app/cypress.config.js
+
+  # TODO: add production/test profiles, we don't need a dev profile just yet
+  # TODO: add seeding service, for testing
   db:
     image: mongo:latest # TODO: insert actual mongo image name
     hostname: db

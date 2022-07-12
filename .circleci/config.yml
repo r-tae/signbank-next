@@ -9,6 +9,34 @@ orbs:
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
+  docker_compose_build:
+    machine:
+      image: ubuntu-2204:2022.04.1
+      docker_layer_caching: false # TODO: change to true, see if it helps at all
+    resource_class: medium
+    working_directory: ~/project
+    steps:
+      - checkout
+      - run: docker-compose build web # TODO: we shouldn't need to build anything else, they can be built during the test job
+      - run: docker save web > ~/docker/web.tar
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
+            - docker
+
+  docker_compose_test:
+    machine:
+      image: ubuntu-2204:2022.04.1
+      docker_layer_caching: false # TODO: change to true, see if it helps at all
+    resource_class: medium
+    working_directory: ~/project
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: docker load -i ~/docker/web.tar
+      - run: docker-compose up
+
   build:
     executor: node/default
     working_directory: ~/project
@@ -77,13 +105,14 @@ jobs:
 workflows:
   integration_tests:
     jobs:
-      - build
+      - docker_compose_build
+      - docker_compose_test
       # Run unit and integration tests in parallel
-      - cypress/run:
-          requires:
-            - build
-          attach-workspace: true
-          start: yarn start
-          post-steps:
-            - store_test_results:
-                path: cypress/results
+      #      - cypress/run:
+      #          requires:
+      #            - build
+      #          attach-workspace: true
+      #          start: yarn start
+      #          post-steps:
+      #            - store_test_results:
+      #                path: cypress/results
