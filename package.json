@@ -10,7 +10,7 @@
     "lint:write": "./node_modules/.bin/next lint --cache --fix",
     "prepare": "./node_modules/.bin/husky install",
     "cypress:open": "./node_modules/.bin/cypress open",
-    "cypress:ci": "./node_modules/.bin/cypress run"
+    "cypress:ci": "./node_modules/.bin/cypress run --reporter junit --reporter-options \"mochaFile=results/test-output-[hash].xml\""
   },
   "dependencies": {
     "@headlessui/react": "^1.5.0",

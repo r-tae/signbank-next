@@ -4,6 +4,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.0.2
+  cypress: cypress-io/cypress@1
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
@@ -32,6 +33,22 @@ jobs:
             - project
             - .cache
 
+  test:
+    docker:
+      - image: cypress/base:14.16.0
+        environment:
+          ## this enables colors in the output
+          TERM: xterm
+    working_directory: ~/project
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run:
+          name: Run tests
+          command: yarn cypress:ci
+      - store_test_results:
+          path: results
+
   unit_tests:
     executor: node/default
     working_directory: ~/project
@@ -42,13 +59,11 @@ jobs:
           name: Run unit tests
           command: yarn test
 
+  # TODO: finish setting up browserstack cypress tests
+  # NOTE: until then, we will just have local cypress tests
   integration_tests:
-    # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     executor: node/default
     working_directory: ~/project
-    # Add steps to the job
-    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - attach_workspace:
           at: ~/
@@ -66,16 +81,11 @@ jobs:
           name: Run integration tests
           command: yarn cypress:ci
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   integration_tests:
     jobs:
       - build
       # Run unit and integration tests in parallel
-      - unit_tests:
-          requires:
-            - build
-      - integration_tests:
+      - test:
           requires:
             - build
