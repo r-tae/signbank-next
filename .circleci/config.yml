@@ -17,7 +17,7 @@ jobs:
     working_directory: ~/project
     steps:
       - checkout
-      - run: docker-compose build --project-name signbank web # TODO: we shouldn't need to build anything else, they can be built during the test job
+      - run: docker-compose --project-name build signbank web # TODO: we shouldn't need to build anything else, they can be built during the test job
       - run: mkdir ~/docker
       - run: docker save signbank_web > ~/docker/signbank_web.tar
       - persist_to_workspace:
