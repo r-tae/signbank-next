@@ -25,9 +25,11 @@ jobs:
           paths:
             - .yarn/cache
             - .yarn/unplugged
+            - ~/.cache
       - persist_to_workspace:
           root: .
-          paths: .
+          paths:
+            - .
 
   unit_tests:
     executor: node/default
