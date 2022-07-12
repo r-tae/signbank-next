@@ -36,7 +36,7 @@ jobs:
       - attach_workspace:
           at: ~/
       - run: docker load -i ~/docker/signbank_web.tar
-      - run: docker compose up
+      - run: docker compose --profile test up --exit-code-from cypress
 
   build:
     executor: node/default
