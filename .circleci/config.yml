@@ -86,6 +86,11 @@ workflows:
     jobs:
       - build
       # Run unit and integration tests in parallel
-      - test:
+      - cypress/run:
           requires:
             - build
+          attach-workspace: true
+          command: yarn start
+          post-steps:
+            - store_test_results:
+                path: cypress/results
