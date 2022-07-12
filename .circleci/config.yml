@@ -83,7 +83,7 @@ workflows:
           requires:
             - build
           attach-workspace: true
-          command: yarn start
+          start: yarn start
           post-steps:
             - store_test_results:
                 path: cypress/results
