@@ -10,6 +10,23 @@ In addition to this configuration you will also need to provide a MongoDB databa
 
 <!-- TODO: flesh out this documentation, and add multiple .md topic specific documents in a /docs folder -->
 
+#### Configuration for deployment will need:
+
+- next-i18next.config.js
+
+```js
+module.exports = {
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'de', 'fi'],
+  },
+}
+```
+
+- `public/`
+  - Localisation file/s
+  - Logo etc
+
 ### Localisation file
 
 > This feature is a WIP and is not yet functional

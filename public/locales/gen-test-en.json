@@ -1,0 +1,55 @@
+{
+  "+he/kN": {
+    "defaultMessage": "Keywords:",
+    "description": "Heading for the list of translations in a spoken language."
+  },
+  "+i8I1b": {
+    "defaultMessage": "Give feedback on this entry",
+    "description": "interactable link that allows user to provide feedback on the current entry"
+  },
+  "3IxgRe": {
+    "defaultMessage": "This sign has no definitions."
+  },
+  "6qFUZ3": {
+    "defaultMessage": "As a verb"
+  },
+  "HuXWJe": {
+    "defaultMessage": "Auslan definition"
+  },
+  "KiNl6V": {
+    "defaultMessage": "loading..."
+  },
+  "Pi2oFq": {
+    "defaultMessage": "Report missing sign",
+    "description": "interactable link that allows user to report a sign that they could not find in Signbank"
+  },
+  "R1pVaj": {
+    "defaultMessage": "As a noun"
+  },
+  "cWlIkB": {
+    "defaultMessage": "Unknown",
+    "description": "the region of usage is null or empty"
+  },
+  "h5P++h": {
+    "defaultMessage": "Variants"
+  },
+  "lImDSf": {
+    "defaultMessage": "Sign distribution",
+    "description": "heading for map and text description the geographic distribution of a sign"
+  },
+  "m0wAKE": {
+    "defaultMessage": "Sign distribution",
+    "description": "heading for for map and text description the geographic distribution of a sign"
+  },
+  "sxeJbs": {
+    "defaultMessage": "traditional",
+    "description": "shown after name of the region of usage for a sign (e.g. \"Australia-wide traditional\")"
+  },
+  "uuDgUP": {
+    "defaultMessage": "An error occured"
+  },
+  "zVoTVI": {
+    "defaultMessage": "(Click to enlarge)",
+    "description": "instructs the user to click on a video thumbnail below, to view a larger version of a video"
+  }
+}

@@ -26,12 +26,14 @@ export const config = {
 
 handler.use(database)
 
+// TODO: move to types folder
 interface GetDictionaryEntryRequest extends ApiRequest {
   query: {
     id_gloss: string
   }
 }
 
+// TODO: move to types folder
 interface GetDictionaryEntryResponse extends ApiResponse {}
 
 handler.put(async (req: any, res: any) => {

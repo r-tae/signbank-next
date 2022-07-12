@@ -1,3 +1,4 @@
+import { DictionaryEntry } from '@/lib/dictionary/hooks'
 import { Db } from 'mongodb'
 
 export async function findDictionaryEntryByIdGloss(db: Db, idGloss: string) {
@@ -9,7 +10,28 @@ export async function findDictionaryEntryByIdGloss(db: Db, idGloss: string) {
   return posts[0]
 }
 
-export async function searchDictionaryEntries(db: Db, query: string) {
+type OptionalParams = {
+  pattern: string
+}
+
+// TODO: move to utils folder or something
+function escapeRegex(s: string) {
+  return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
+}
+
+// TODO: prevent users from seeing things they shouldn't (perhaps with a filter after results are returned, though it would be more effecient to do it in the query)
+
+export async function searchDictionaryEntries(
+  db: Db,
+  query: string,
+  optionalParams?: OptionalParams
+): Promise<DictionaryEntry[]> {
+  if (optionalParams) {
+    const { pattern } = optionalParams
+  }
+
+  query = escapeRegex(query)
+
   const results = await db
     .collection('dictionary')
     .aggregate([
@@ -24,12 +46,12 @@ export async function searchDictionaryEntries(db: Db, query: string) {
       },
     ])
     .toArray()
-  if (results.length === 0) return null
-  return results
+  if (results.length === 0) return []
+  return results as DictionaryEntry[]
 }
 
-export async function listIdGlosses(db: Db) {
+export async function listIdGlosses(db: Db): Promise<DictionaryEntry[]> {
   const entries = await db.collection('dictionary').aggregate().toArray()
-  if (!entries) return null
-  return entries
+  if (!entries) return []
+  return entries as DictionaryEntry[]
 }

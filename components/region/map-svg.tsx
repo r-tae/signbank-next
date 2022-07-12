@@ -1,5 +1,5 @@
 import { FC } from 'react'
-import MapSvg from 'public/australia_map.svg'
+import Svg from 'public/australia_map.svg'
 // import { ReactSVG } from 'react-svg'
 interface Props {
   select: string
@@ -20,11 +20,11 @@ const regionSelections: { [key: string]: string } = {
 }
 
 /* namespace */
-const SVG_CSS_PREFIX = 'australia_map_svg__'
+const SVG_CSS_PREFIX = 'region_map_svg__'
 
-export const AustraliaRegionMap: FC<Props> = ({ select, className }) => {
+export const MapSvg: FC<Props> = ({ select, className }) => {
   return (
-    <MapSvg
+    <Svg
       className={`${SVG_CSS_PREFIX}${regionSelections[select]} ${
         className || ''
       }`}

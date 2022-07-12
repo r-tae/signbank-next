@@ -1,0 +1,50 @@
+{
+  "entry": {
+    "detail": {
+      "basic-heading": "Basic properties",
+      "dialect-heading": "Dialects and regional frequencies",
+      "publication-heading": "Publication status",
+      "phonology-heading": "Phonology",
+      "initialDominantHandshape": "Initial dominant handshape",
+      "finalDominantHandshape": "Final dominant handshape",
+      "initialSubordinateHandshape": "Initial subordinate handshape",
+      "finalSubordinateHandshape": "Final subordinate handshape",
+      "initialPrimaryLocation": "Initial primary location",
+      "finalPrimaryLocation": "Final primary location",
+      "initialDominantInteractingHandPart": "Initial dominant interacting hand part",
+      "finalDominantInteractingHandPart": "Final dominant interacting hand part",
+      "initialSubordinateInteractingHandPart": "Initial subordinate interacting hand part",
+      "finalSubordinateInteractingHandPart": "Final subordinate interacting hand part",
+      "secondaryLocation": "Secondary location",
+      "relations-heading": "Relations to other signs",
+      "definitions-heading": "Definitions/notes"
+    },
+    "distribution-heading": "Distribution:",
+    "keywords-heading": "Keywords:",
+    "switch-view-to_detail": "Detail view",
+    "switch-view-to_public": "Public view",
+    "no-definitions": "This sign has no definitions.",
+    "sl-native-definition-heading_asf": "Auslan definition",
+    "definition-as-pos_noun": "As a noun",
+    "definition-as-pos_verb": "As a verb",
+    "report-sign-link": "Report missing sign",
+    "feedback-link": "Give feedback on this entry",
+    "enlarge-reminder": "(Click to enlarge)",
+    "variant-heading": "Variants"
+  },
+  "error": {
+    "page-load": "An error occurred"
+  },
+  "page-loading": "loading...",
+  "usage.traditional": "traditional",
+  "human-readable-region-name_AUS": "Australia-wide",
+  "human-readable-region-name_NTH": "Northern Dialect",
+  "human-readable-region-name_STH": "Southern Dialect",
+  "human-readable-region-name_VIC": "Victoria",
+  "human-readable-region-name_QLD": "Queensland",
+  "human-readable-region-name_TAS": "Tasmania",
+  "human-readable-region-name_SA": "South Australia",
+  "human-readable-region-name_NT": "Northern Territory",
+  "human-readable-region-name_WA": "Western Australia",
+  "human-readable-region-name_NSW": "New South Wales"
+}

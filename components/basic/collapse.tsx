@@ -1,8 +1,10 @@
-import { useState } from 'react'
+interface CollapseProps {
+  header: any
+  children: any
+}
 
-export function Collapse({ header, children }) {
-  const [open, setOpen] = useState(false)
-
+// TODO: type this properly
+export function Collapse({ header, children }: CollapseProps) {
   return (
     <div className="relative overflow-hidden rounded border border-black bg-stone-300">
       <input

@@ -1,5 +1,6 @@
 const withReactSvg = require('next-react-svg')
 const path = require('path')
+const { i18n } = require('./next-i18next.config.js')
 
 module.exports = withReactSvg({
   webpackDevMiddleware: (config) => {
@@ -15,4 +16,5 @@ module.exports = withReactSvg({
     return config
   },
   output: 'standalone',
+  i18n,
 })

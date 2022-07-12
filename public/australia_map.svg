@@ -15,51 +15,51 @@ g {
 
 
 /* Dialects */
-.australia_map_svg__select_aus #VIC,
-.australia_map_svg__select_aus #SA,
-.australia_map_svg__select_aus #Kangaroo-Island,
-.australia_map_svg__select_aus #WA,
-.australia_map_svg__select_aus #TAS,
-.australia_map_svg__select_aus #NT,
-.australia_map_svg__select_aus #Groote-Eyland,
-.australia_map_svg__select_aus #Melville-Island,
-.australia_map_svg__select_aus #QLD,
-.australia_map_svg__select_aus #NSW,
-.australia_map_svg__select_aus #ACT,
+.region_map_svg__select_aus #VIC,
+.region_map_svg__select_aus #SA,
+.region_map_svg__select_aus #Kangaroo-Island,
+.region_map_svg__select_aus #WA,
+.region_map_svg__select_aus #TAS,
+.region_map_svg__select_aus #NT,
+.region_map_svg__select_aus #Groote-Eyland,
+.region_map_svg__select_aus #Melville-Island,
+.region_map_svg__select_aus #QLD,
+.region_map_svg__select_aus #NSW,
+.region_map_svg__select_aus #ACT,
 
 
 
 
-.australia_map_svg__select_nth #QLD,
-.australia_map_svg__select_nth #NSW,
-.australia_map_svg__select_nth #ACT,
+.region_map_svg__select_nth #QLD,
+.region_map_svg__select_nth #NSW,
+.region_map_svg__select_nth #ACT,
 
-.australia_map_svg__select_sth #VIC,
-.australia_map_svg__select_sth #SA,
-.australia_map_svg__select_sth #Kangaroo-Island,
-.australia_map_svg__select_sth #WA,
-.australia_map_svg__select_sth #TAS,
-.australia_map_svg__select_sth #NT,
-.australia_map_svg__select_sth #Groote-Eyland,
-.australia_map_svg__select_sth #Melville-Island,
+.region_map_svg__select_sth #VIC,
+.region_map_svg__select_sth #SA,
+.region_map_svg__select_sth #Kangaroo-Island,
+.region_map_svg__select_sth #WA,
+.region_map_svg__select_sth #TAS,
+.region_map_svg__select_sth #NT,
+.region_map_svg__select_sth #Groote-Eyland,
+.region_map_svg__select_sth #Melville-Island,
 
 /* Indiv states (plus islands and ACT) */
-.australia_map_svg__select_vic #VIC,
+.region_map_svg__select_vic #VIC,
 
-.australia_map_svg__select_wa #WA,
+.region_map_svg__select_wa #WA,
 
-.australia_map_svg__select_sa #SA,
-.australia_map_svg__select_sa #Kangaroo-Island,
+.region_map_svg__select_sa #SA,
+.region_map_svg__select_sa #Kangaroo-Island,
 
 
-.australia_map_svg__select_nt #NT,
+.region_map_svg__select_nt #NT,
 
-.australia_map_svg__select_qld #QLD,
+.region_map_svg__select_qld #QLD,
 
-.australia_map_svg__select_nsw #NSW,
-.australia_map_svg__select_nsw #ACT,
+.region_map_svg__select_nsw #NSW,
+.region_map_svg__select_nsw #ACT,
 
-.australia_map_svg__select_tas #TAS {
+.region_map_svg__select_tas #TAS {
   fill: #699bd5;
 }
 </style>

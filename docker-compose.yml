@@ -53,8 +53,7 @@ services:
     command: yarn dev
     environment:
       PORT: 3000
-
 #volumes:
-  #mongodb:
-  #mongodb_config: # TODO: don't know if this is necessary
+#mongodb:
+#mongodb_config: # TODO: don't know if this is necessary
 
