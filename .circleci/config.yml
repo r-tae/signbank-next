@@ -14,19 +14,12 @@ jobs:
     working_directory: ~/project
     steps:
       - checkout
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
       - run:
           name: Install Dependencies
           command: yarn install --production=false --frozen-lockfile
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - .yarn/cache
-            - .yarn/unplugged
+      - run:
+          name: Next build
+          command: yarn build
       - persist_to_workspace:
           root: ~/
           paths:
