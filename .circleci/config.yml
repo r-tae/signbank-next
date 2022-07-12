@@ -10,6 +10,7 @@ orbs:
 jobs:
   build:
     executor: node/default
+    working_directory: ~/project
     steps:
       - checkout
       - restore_cache:
@@ -26,16 +27,17 @@ jobs:
             - .yarn/cache
             - .yarn/unplugged
       - persist_to_workspace:
-          root: .
+          root: ~/
           paths:
-            - .
-            - ../.cache
+            - project
+            - .cache
 
   unit_tests:
     executor: node/default
+    working_directory: ~/project
     steps:
       - attach_workspace:
-          at: .
+          at: ~/
       - run:
           name: Run unit tests
           command: yarn test
@@ -44,11 +46,12 @@ jobs:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     executor: node/default
+    working_directory: ~/project
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - attach_workspace:
-          at: .
+          at: ~/
       - run:
           name: Download browserstack local binary
           command: wget "https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip"
