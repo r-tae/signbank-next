@@ -1,8 +1,8 @@
 # TODO: double check this file has everything
 services:
-  nginx:
-    volumes:
-      - ./nginx/dev_conf/:/etc/nginx/conf.d/:ro
+  # nginx:
+  #   volumes:
+  #     - ./nginx/dev_conf/:/etc/nginx/conf.d/:ro
   certbot:
     # TODO: switch to use a 'production' profile in docker-compose.yml, so we don't need it in the override
     # NOTE: effectively disables certbot
