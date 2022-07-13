@@ -34,9 +34,9 @@ services:
       CYPRESS_baseUrl: http://web:3000 # this bypasses nginx, I'm not sure if this is a good idea
     working_dir: /e2e
     volumes:
-      - ./:/e2e
-      #- ./cypress:/app/cypress
-      #- ./cypress.config.js:/app/cypress.config.js
+      #- ./:/e2e
+      - ./cypress:/e2e/cypress
+      - ./cypress.config.js:/e2e/cypress.config.js
 
   # TODO: add production/test profiles, we don't need a dev profile just yet
   # TODO: add seeding service, for testing
