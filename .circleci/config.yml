@@ -59,7 +59,7 @@ jobs:
                       --profile test
                       up --exit-code-from cypress"
       - store_test_results:
-          path: cypress/results
+          path: cypress
 
   # TODO: remove this, it is useless now that we have the docker compose flow working
   build:
