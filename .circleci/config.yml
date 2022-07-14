@@ -18,7 +18,7 @@ orbs:
 jobs:
   # TODO: build and test in a single step for daily use, as it is quite a bit faster
   build_and_test:
-    << *defaults
+    <<: *defaults
     steps:
       - checkout
       - run:
@@ -26,7 +26,7 @@ jobs:
 
   # TODO: set image tagging up properly, avoid `latest`, use semver
   build_prod:
-    << *defaults
+    <<: *defaults
     steps:
       - checkout
       - run:
@@ -45,7 +45,7 @@ jobs:
             - project
 
   test_prod:
-    << *defaults
+    <<: *defaults
     steps:
       - attach_workspace:
           at: ~/
