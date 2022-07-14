@@ -5,7 +5,7 @@ services:
   # NOTE: this does not work on m1 macs, cypress is working on it, but it seems like it depends upon chrome creating a linux/arm64 release, which is unlikely
   cypress:
     image: cypress/included:10.3.0
-    entrypoint: cypress open --record
+    command: --record
     platform: "linux/amd64"
     profiles: ['test']
       #entrypoint: cypress open --project /
