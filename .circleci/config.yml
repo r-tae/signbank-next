@@ -17,12 +17,12 @@ orbs:
 # NOTE: we want to run integration tests on the same image that is fit for production, should revisit and make sure of this
 jobs:
   # TODO: build and test in a single step for daily use, as it is quite a bit faster
-  build_and_test:
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-          name: Build
+  # build_and_test:
+  #   <<: *defaults
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Build
 
   # TODO: set image tagging up properly, avoid `latest`, use semver
   build_prod:
@@ -115,8 +115,8 @@ jobs:
 workflows:
   integration_tests:
     jobs:
-      - docker_compose_build
-      - docker_compose_test:
+      - build_prod
+      - test_prod:
           requires:
-            - docker_compose_build
+            - build_prod
 
