@@ -12,19 +12,9 @@ defaults: &defaults
 orbs:
   node: circleci/node@5.0.2
 
-# TODO: add steps for deployment (basically just pushing the image to docker hub) etc
 # TODO: end goal is for PRs into master to have testing done on them, and to run a test before making a release (main->release branch merge basically)
 # NOTE: we want to run integration tests on the same image that is fit for production, should revisit and make sure of this
 jobs:
-  # TODO: build and test in a single step for daily use, as it is quite a bit faster
-  # build_and_test:
-  #   <<: *defaults
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: Build
-
-  # TODO: set image tagging up properly, avoid `latest`, use semver
   build_prod:
     <<: *defaults
     steps:
@@ -36,63 +26,32 @@ jobs:
                       --project-name signbank
                       -f docker-compose.yml -f docker-compose.prod.yml
                       build web"
-      - run:
-          name: Save application image to archive
-          command: docker save signbank_web > signbank_web.tar
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project
 
-  test_prod:
+  build_and_test:
     <<: *defaults
     steps:
-      - attach_workspace:
-          at: ~/
+      - checkout
       - run:
-          name: Load application image from archive
-          command: docker load -i signbank_web.tar
+          name: Build application image
+          # TODO: set up image tagging, avoid `latest`, use semver
+          command: "docker compose
+                      --project-name signbank
+                      -f docker-compose.yml -f docker-compose.prod.yml
+                      build web"
+      # TODO: configure cypress to run unit tests as well, no need to have two test runners
       - run:
           name: Run tests
           command: "docker compose
                       --project-name signbank
                       --profile test
+                      -f docker-compose.yml -f docker-compose.prod.yml
                       up --exit-code-from cypress"
       - store_test_results:
           path: cypress
+      # TODO: push to docker hub if the tests passed
 
-  # TODO: remove this, it is useless now that we have the docker compose flow working
-  build:
-    executor: node/default
-    working_directory: ~/project
-    steps:
-      - checkout
-      - run:
-          name: Install Dependencies
-          command: yarn install --production=false --frozen-lockfile
-      - run:
-          name: Next build
-          command: yarn build
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - project
-            - .cache
-
-  # TODO: cypress can take care of unit tests too, remove this and configure that
-  unit_tests:
-    executor: node/default
-    working_directory: ~/project
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Run unit tests
-          command: yarn test
-
-  # TODO: finish setting up browserstack cypress tests
-  # NOTE: until then, we will just have local cypress tests
-  integration_tests:
+  # TODO: reintroduce browserstack testing, not sure how that'll work with the new docker setup
+  browserstack_tests:
     executor: node/default
     working_directory: ~/project
     steps:
@@ -115,8 +74,5 @@ jobs:
 workflows:
   integration_tests:
     jobs:
-      - build_prod
-      - test_prod:
-          requires:
-            - build_prod
+      - build_and_test
 

@@ -17,6 +17,8 @@ services:
     working_dir: /e2e
     volumes:
       #- ./:/e2e
+      # NOTE: cypress needs the .git directory to show commit info on the dashboard
+      - ./.git:/e2e/.git
       - ./cypress:/e2e/cypress
       - ./cypress.config.js:/e2e/cypress.config.js
 
