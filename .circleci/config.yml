@@ -24,7 +24,7 @@ jobs:
           # NOTE: everything else will be build during test
           command: "docker compose
                       --project-name signbank
-                      -f docker-compose.yml -f docker-compose.prod.yml
+                      -f docker-compose.yml 
                       build web"
 
   build_and_test:
@@ -33,10 +33,11 @@ jobs:
       - checkout
       - run:
           name: Build application image
+          # TODO: add `-f docker-compose.prod.yml` back, once nginx is configured for production properly
           # TODO: set up image tagging, avoid `latest`, use semver
           command: "docker compose
                       --project-name signbank
-                      -f docker-compose.yml -f docker-compose.prod.yml
+                      -f docker-compose.yml
                       build web"
       # TODO: configure cypress to run unit tests as well, no need to have two test runners
       - run:
@@ -44,7 +45,7 @@ jobs:
           command: "docker compose
                       --project-name signbank
                       --profile test
-                      -f docker-compose.yml -f docker-compose.prod.yml
+                      -f docker-compose.yml
                       up --exit-code-from cypress"
       - store_test_results:
           path: cypress
