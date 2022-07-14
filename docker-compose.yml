@@ -5,6 +5,7 @@ services:
   # NOTE: this does not work on m1 macs, cypress is working on it, but it seems like it depends upon chrome creating a linux/arm64 release, which is unlikely
   cypress:
     image: cypress/included:10.3.0
+    entrypoint: cypress open --record
     platform: "linux/amd64"
     profiles: ['test']
       #entrypoint: cypress open --project /
@@ -12,6 +13,7 @@ services:
       - web
     environment:
       CYPRESS_baseUrl: http://web:3000 # this bypasses nginx, I'm not sure if this is a good idea
+      CYPRESS_RECORD_KEY: ${CYPRESS_RECORD_KEY}
     working_dir: /e2e
     volumes:
       #- ./:/e2e
@@ -20,6 +22,7 @@ services:
 
   # TODO: add production/test profiles, we don't need a dev profile just yet
   # TODO: add seeding service, for testing
+  # TODO: add healthcheck, I think this can stop `web` from starting until the database is up
   db:
     image: mongo:latest # TODO: insert actual mongo image name
     hostname: db

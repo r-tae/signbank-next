@@ -2,42 +2,64 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+defaults: &defaults
+  working_directory: ~/project
+  machine:
+    image: ubuntu-2204:2022.04.1
+    docker_layer_caching: true # NOTE: doesn't seem to do anything, follow up if you have time
+  resource_class: medium
+
 orbs:
   node: circleci/node@5.0.2
-  cypress: cypress-io/cypress@1
 
 # TODO: add steps for deployment (basically just pushing the image to docker hub) etc
 # TODO: end goal is for PRs into master to have testing done on them, and to run a test before making a release (main->release branch merge basically)
 # NOTE: we want to run integration tests on the same image that is fit for production, should revisit and make sure of this
 jobs:
-  docker_compose_build:
-    machine:
-      image: ubuntu-2204:2022.04.1
-      docker_layer_caching: true # TODO: change to true, see if it helps at all (it may be a paid feature)
-    resource_class: medium
-    working_directory: ~/project
+  # TODO: build and test in a single step for daily use, as it is quite a bit faster
+  build_and_test:
+    << *defaults
     steps:
       - checkout
-      - run: docker compose --project-name signbank build web # NOTE: we shouldn't need to build anything else, they can be built during the test job
-      - run: mkdir ~/docker
-      - run: docker save signbank_web > ~/docker/signbank_web.tar
+      - run:
+          name: Build
+
+  # TODO: set image tagging up properly, avoid `latest`, use semver
+  build_prod:
+    << *defaults
+    steps:
+      - checkout
+      - run:
+          name: Build application image
+          # NOTE: everything else will be build during test
+          command: "docker compose
+                      --project-name signbank
+                      -f docker-compose.yml -f docker-compose.prod.yml
+                      build web"
+      - run:
+          name: Save application image to archive
+          command: docker save signbank_web > signbank_web.tar
       - persist_to_workspace:
           root: ~/
           paths:
             - project
-            - docker
 
-  docker_compose_test:
-    machine:
-      image: ubuntu-2204:2022.04.1
-      docker_layer_caching: true # TODO: change to true, see if it helps at all (it may be a paid feature)
-    resource_class: medium
-    working_directory: ~/project
+  test_prod:
+    << *defaults
     steps:
       - attach_workspace:
           at: ~/
-      - run: docker load -i ~/docker/signbank_web.tar
-      - run: docker compose -p signbank --profile test up --exit-code-from cypress
+      - run:
+          name: Load application image from archive
+          command: docker load -i signbank_web.tar
+      - run:
+          name: Run tests
+          command: "docker compose
+                      --project-name signbank
+                      --profile test
+                      up --exit-code-from cypress"
+      - store_test_results:
+          path: cypress/results
 
   # TODO: remove this, it is useless now that we have the docker compose flow working
   build:

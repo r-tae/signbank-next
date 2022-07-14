@@ -1,6 +1,7 @@
 const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
+  projectId: 'tpbzfn',
   reporter: 'junit',
   reporterOptions: {
     mochaFile: 'cypress/results/output.xml',
