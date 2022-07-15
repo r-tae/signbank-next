@@ -16,19 +16,19 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/api-lib/*": ["api-lib/*"],
-      "@/components/*": ["components/*"],
-      "@/lib/*": ["lib/*"],
-      "@/page-components/*": ["page-components/*"],
-      "@/types/*": ["types/*"]
+      "@/api-lib/*": ["src/api-lib/*"],
+      "@/components/*": ["src/components/*"],
+      "@/lib/*": ["src/lib/*"],
+      "@/page-components/*": ["src/page-components/*"],
+      "@/types/*": ["src/types/*"]
     }
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js",
-    "additional.d.ts"
+    "src/next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.js",
+    "src/additional.d.ts"
   ],
   "exclude": ["node_modules"]
 }

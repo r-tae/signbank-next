@@ -1,12 +1,11 @@
 FROM node:alpine
 
-RUN mkdir -p /app
 WORKDIR /app
 
-COPY package.json yarn.lock /app
-RUN yarn install --production=false
+COPY package.json yarn.lock .
+RUN yarn install --frozen-lockfile --production=false
 
-COPY . /app
+COPY . .
 
 RUN yarn build
 
