@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import useSWR, { SWRResponse } from 'swr'
-import { DictionaryEntry } from '@/types/entry'
+import { DictionaryEntry } from 'types/entry'
 
 export function useDictionarySearch(
   query: string

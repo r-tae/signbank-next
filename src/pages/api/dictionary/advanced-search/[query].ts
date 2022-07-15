@@ -1,11 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import type { Db } from 'mongodb'
-
-import { searchDictionaryEntries } from '@/api-lib/db'
-import { ncOpts } from '@/api-lib/nc'
 import nc from 'next-connect'
-import { database } from '@/api-lib/middlewares'
-import { DictionaryEntry } from '@/types/entry'
+
+import { searchDictionaryEntries } from 'api-lib/db'
+import { ncOpts } from 'api-lib/nc'
+import { database } from 'api-lib/middlewares'
+import { DictionaryEntry } from 'types/entry'
 // HACK: move types to types folder
 
 const handler = nc(ncOpts)

@@ -2,11 +2,11 @@ import React, { FC, useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import Logo from '@/components/logo'
-import { Search } from '@/components/search'
 import { useRouter } from 'next/router'
 import { SearchIcon } from '@heroicons/react/solid'
 import { MenuIcon } from '@heroicons/react/outline'
+import Logo from 'components/logo'
+import { Search } from 'components/search'
 
 type props = {
   children: JSX.Element | JSX.Element[]

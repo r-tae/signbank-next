@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
-import { useDictionarySearch } from '@/lib/dictionary/hooks'
-import { SearchResult } from '@/components/search'
+import { useDictionarySearch } from 'lib/dictionary/hooks'
+import { SearchResult } from 'components/search'
 
 const SearchResults: NextPage = () => {
   const { t } = useTranslation(['common'])

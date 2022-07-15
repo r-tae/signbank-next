@@ -16,11 +16,11 @@
     "incremental": true,
     "baseUrl": ".",
     "paths": {
-      "@/api-lib/*": ["src/api-lib/*"],
-      "@/components/*": ["src/components/*"],
-      "@/lib/*": ["src/lib/*"],
-      "@/page-components/*": ["src/page-components/*"],
-      "@/types/*": ["src/types/*"]
+      "api-lib/*": ["src/api-lib/*"],
+      "lib/*": ["src/lib/*"],
+      "components/*": ["src/components/*"],
+      "types/*": ["src/types/*"],
+      "*": ["src/*"]
     }
   },
   "include": [

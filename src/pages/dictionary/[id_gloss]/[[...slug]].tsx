@@ -1,6 +1,3 @@
-import { RegionInfoBox } from '@/components/region'
-import { Collapse } from '@/components/basic'
-import { useDictionaryEntry } from '@/lib/dictionary/hooks'
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -10,6 +7,9 @@ import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+import { RegionInfoBox } from 'components/region'
+import { Collapse } from 'components/basic'
+import { useDictionaryEntry } from 'lib/dictionary/hooks'
 
 // TODO: use like actual buttons for publishing, not whatever we have now
 // TODO: make reording definitions a drag-drop operation instead of the legacy jank (make the move up/down buttons are more accessible?)

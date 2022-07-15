@@ -1,10 +1,10 @@
-import { findDictionaryEntryByIdGloss } from '@/api-lib/db'
-import { database } from '@/api-lib/middlewares'
-import { ncOpts } from '@/api-lib/nc'
 import nc from 'next-connect'
 import { ApiRequest, ApiResponse } from 'additional'
 import formidable from 'formidable'
 import AWS from 'aws-sdk'
+import { findDictionaryEntryByIdGloss } from 'api-lib/db'
+import { database } from 'api-lib/middlewares'
+import { ncOpts } from 'api-lib/nc'
 
 const handler = nc(ncOpts)
 

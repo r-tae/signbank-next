@@ -39,6 +39,7 @@
     "eslint-config-next": "12.1.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-formatjs": "^4.0.2",
+    "eslint-plugin-import": "^2.26.0",
     "husky": ">=6",
     "lint-staged": ">=10",
     "postcss": "^8.4.5",
