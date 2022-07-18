@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
-import { HeaderContext, useHeaderContext } from '@components/layout'
-import { Search } from '@components/search'
 import type { NextPage } from 'next'
+
+import { HeaderContext, useHeaderContext } from '@/components/layout'
+import { Search } from '@/components/search'
 
 const Home: NextPage = () => {
   const { showSearchBar, setShowSearchBar } = useHeaderContext()
