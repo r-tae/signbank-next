@@ -54,7 +54,8 @@ services:
     ports:
       - '3000:3000'
     working_dir: /app
-    command: yarn dev
+      #command: yarn dev
+    command: yarn start:server
     environment:
       PORT: 3000
 #volumes:

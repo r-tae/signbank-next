@@ -35,8 +35,12 @@
   "error": {
     "page-load": "An error occurred"
   },
+  "region-info-box": {
+    "distribution-heading": "Sign distribution"
+  },
   "page-loading": "loading...",
   "usage.traditional": "traditional",
+  "search-placeholder": "Search...",
   "human-readable-region-name_AUS": "Australia-wide",
   "human-readable-region-name_NTH": "Northern Dialect",
   "human-readable-region-name_STH": "Southern Dialect",
