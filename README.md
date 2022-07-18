@@ -1,4 +1,5 @@
 # Signbank Next
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/r-tae/signbank-next/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/r-tae/signbank-next/tree/main)
 
 The latest iteration of Auslan Signbank, built with NextJS.
 
