@@ -5,8 +5,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { IncomingMessage, ServerResponse } from 'http'
 
-interface ApiRequest extends NextApiRequest {
+export interface ApiRequest extends NextApiRequest {
   db: Db
 }
 
-interface ApiResponse extends NextApiResponse {}
+export interface ApiResponse extends NextApiResponse {}

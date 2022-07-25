@@ -8,7 +8,6 @@ import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 
 import Logo from 'components/logo'
-import { Search } from 'components/search'
 
 type props = {
   children: JSX.Element | JSX.Element[]
@@ -40,7 +39,7 @@ const FakeMenu = () => (
 )
 
 const SearchBar = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation(['common'])
   const [query, setQuery] = useState('')
   const router = useRouter()
 
@@ -144,7 +143,7 @@ const Header = ({
   )
 }
 
-export const Layout: FC<props> = ({ children }) => {
+export function BaseLayout({ children }: props): JSX.Element {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const toggleMenu = () => {

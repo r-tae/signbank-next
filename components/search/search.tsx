@@ -7,7 +7,7 @@ import { useTranslation } from 'next-i18next'
 type props = {}
 
 export const Search: FC<props> = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation(['common'])
   const [query, setQuery] = useState('')
   const router = useRouter()
 

@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app'
 import { appWithTranslation } from 'next-i18next'
 import { SWRConfig } from 'swr'
 
-import { Layout } from '@/components/layout'
+import { BaseLayout } from '@/components/layout'
 import { fetcher } from '@/lib/fetch'
 
 import '@/styles/globals.css'
@@ -15,9 +15,9 @@ function SignbankNext({ Component, pageProps }: AppProps) {
         fetcher,
       }}
     >
-      <Layout>
+      <BaseLayout>
         <Component {...pageProps} />
-      </Layout>
+      </BaseLayout>
     </SWRConfig>
   )
 }

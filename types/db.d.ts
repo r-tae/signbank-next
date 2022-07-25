@@ -1,3 +1,6 @@
+export type IdGloss = string
+export type SignNumber = `${number}`
+
 export type Definition = {
   text: string
   published: boolean
@@ -13,10 +16,10 @@ export type Video = {
   url: string
 }
 
-export type OldDictionaryEntry = {
+export type DictionaryEntry = {
   _id: string
   id: number
-  idGloss: string
+  idGloss: IdGloss
   annotationIdGloss: string
   aslGloss: string // TODO: move stuff about asl and bsl (and SE) into a nested section, so that at least the top-level is SL-agnostic
   isAslLoan: boolean
@@ -29,21 +32,15 @@ export type OldDictionaryEntry = {
   morphology: string
   signedEnglishGloss: string
   sense: number
-  signNumber: string
-  stemSignNumber: string
+  signNumber: SignNumber
+  stemSignNumber: SignNumber
   definitions: Definition[]
   keywords: Keyword[]
   videos: Video[]
   relations: {
-    // TODO: this does not reflect how it is actually stored in the database, just how it's returned by the getById endpoint
-    entry: DictionaryEntry
+    sign: IdGloss
     role: string
   }[]
-  // NOTE: the actual DB model looks like:
-  // relations: {
-  //   sign: string (an ID gloss)
-  //   role: string
-  // }[]
   language: {
     code: string
     region: string // TODO: would like to rename this to something more general (perhaps 'dialect'/'variety')

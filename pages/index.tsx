@@ -1,7 +1,7 @@
-import { useEffect } from 'react'
 import type { NextPage } from 'next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-import { HeaderContext, useHeaderContext } from '@/components/layout'
+import { useHeaderContext } from '@/components/layout'
 import { Search } from '@/components/search'
 
 const Home: NextPage = () => {
@@ -68,5 +68,11 @@ const Home: NextPage = () => {
     </main>
   )
 }
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => ({
+  props: {
+    ...(await serverSideTranslations(locale, ['common'])),
+  },
+})
 
 export default Home

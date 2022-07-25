@@ -1,22 +1,30 @@
+// TODO: this file will require refactoring, project is switching to use a separate API instead of a NextJS backend
+
 import { useRouter } from 'next/router'
 import useSWR, { SWRResponse } from 'swr'
 
-import { DictionaryEntry } from '@/types/entry'
+import { DictionaryEntry } from '@/types/api/entry'
 
 export function useDictionarySearch(
   query: string
-): SWRResponse<DictionaryEntry[], any> {
+): SWRResponse<{ data: DictionaryEntry[] }, any> {
   const { isReady } = useRouter()
-  return useSWR(isReady ? `/api/dictionary/search/${query}` : null, {
-    refreshInterval: 0,
-  })
+  return useSWR(
+    isReady ? `http://localhost:3000/api/entries/?s=${query}` : null,
+    {
+      refreshInterval: 0,
+    }
+  )
 }
 
 export function useDictionaryEntry(
   idGloss: string
-): SWRResponse<{ dictionaryEntry: DictionaryEntry }, any> {
+): SWRResponse<{ data: DictionaryEntry }, any> {
   const { isReady } = useRouter()
-  return useSWR(isReady ? `/api/dictionary/${idGloss}` : null, {
-    refreshInterval: 0,
-  })
+  return useSWR(
+    isReady ? `http://localhost:3000/api/entries/${idGloss}` : null,
+    {
+      refreshInterval: 0,
+    }
+  )
 }

@@ -1,3 +1,4 @@
+// TODO: this file is slated for deletion, project is switching to use a separate API instead of a NextJS backend
 import { MongoClient } from 'mongodb'
 import path from 'path'
 import fs from 'fs'
@@ -18,19 +19,19 @@ async function createIndexes(db) {
 
 export async function getMongoClient() {
   // HACK: dedup this code
-  let certPath = './certs/ca-certificate.crt'
-  let mongoOptions = {}
+  // let certPath = './certs/ca-certificate.crt'
+  // let mongoOptions = {}
 
-  if (!fs.existsSync(certPath)) {
-    if (process.env.CA_CERT) {
-      fs.writeFileSync(path.resolve(certPath), process.env.CA_CERT)
-      mongoOptions.tlsCAFile = certPath
-    } else {
-      throw new Error(
-        'No CA certificate exists and the CA_CERT environment variable is not present; MongoDB will not be able to connect.'
-      )
-    }
-  }
+  // if (!fs.existsSync(certPath)) {
+  //   if (process.env.CA_CERT) {
+  //     fs.writeFileSync(path.resolve(certPath), process.env.CA_CERT)
+  //     mongoOptions.tlsCAFile = certPath
+  //   } else {
+  //     throw new Error(
+  //       'No CA certificate exists and the CA_CERT environment variable is not present; MongoDB will not be able to connect.'
+  //     )
+  //   }
+  // }
 
   if (!global.mongo.client) {
     global.mongo.client = new MongoClient(
@@ -46,22 +47,20 @@ export async function getMongoClient() {
 }
 
 export default async function database(req, res, next) {
-  let mongoCertPath = path.resolve('./certs/ca-certificate.crt')
+  // let mongoCertPath = path.resolve('./certs/ca-certificate.crt')
 
-  if (!fs.existsSync(mongoCertPath)) {
-    if (process.env.CA_CERT) {
-      fs.writeFileSync(mongoCertPath, process.env.CA_CERT)
-    } else {
-      throw new Error(
-        'No CA certificate exists and the CA_CERT environment variable is not present; MongoDB will not be able to connect.'
-      )
-    }
-  }
+  // if (!fs.existsSync(mongoCertPath)) {
+  //   if (process.env.CA_CERT) {
+  //     fs.writeFileSync(mongoCertPath, process.env.CA_CERT)
+  //   } else {
+  //     throw new Error(
+  //       'No CA certificate exists and the CA_CERT environment variable is not present; MongoDB will not be able to connect.'
+  //     )
+  //   }
+  // }
 
   if (!global.mongo.client) {
-    global.mongo.client = new MongoClient(process.env.DATABASE_URL, {
-      tlsCAFile: './certs/ca-certificate.crt',
-    })
+    global.mongo.client = new MongoClient(process.env.DATABASE_URL)
   }
 
   req.dbClient = await getMongoClient()

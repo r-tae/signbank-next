@@ -1,3 +1,5 @@
+// TODO: this file is slated for deletion, project is switching to use a separate API instead of a NextJS backend
+
 import type { Db } from 'mongodb'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import nc from 'next-connect'
@@ -5,7 +7,7 @@ import nc from 'next-connect'
 import { searchDictionaryEntries } from '@/api-lib/db'
 import { database } from '@/api-lib/middlewares'
 import { ncOpts } from '@/api-lib/nc'
-import { DictionaryEntry } from '@/types/entry'
+import { DictionaryEntry } from '@/types/api/entry'
 
 const handler = nc(ncOpts)
 handler.use(database)
