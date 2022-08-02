@@ -15,18 +15,6 @@ orbs:
 # TODO: end goal is for PRs into master to have testing done on them, and to run a test before making a release (main->release branch merge basically)
 # NOTE: we want to run integration tests on the same image that is fit for production, should revisit and make sure of this
 jobs:
-  build_prod:
-    <<: *defaults
-    steps:
-      - checkout
-      - run:
-          name: Build application image
-          # NOTE: everything else will be build during test
-          command: "docker compose
-                      --project-name signbank
-                      -f docker-compose.yml 
-                      build web"
-
   build_and_test:
     <<: *defaults
     steps:
@@ -39,6 +27,7 @@ jobs:
                       --project-name signbank
                       -f docker-compose.yml
                       build web"
+          command: 
       # TODO: configure cypress to run unit tests as well, no need to have two test runners
       - run:
           name: Run tests
@@ -51,29 +40,9 @@ jobs:
           path: cypress
       # TODO: push to docker hub if the tests passed
 
-  # TODO: reintroduce browserstack testing, not sure how that'll work with the new docker setup
-  browserstack_tests:
-    executor: node/default
-    working_directory: ~/project
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run:
-          name: Download browserstack local binary
-          command: wget "https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip"
-      - run:
-          name: Unzip browserstack local binary
-          command: unzip BrowserStackLocal-linux-x64.zip
-      - run:
-          name: Run browserstack local binary
-          command: ./BrowserStackLocal $BROWSERSTACK_ACCESS_KEY
-          background: true
-      - run:
-          name: Run integration tests
-          command: yarn cypress:ci
-
 workflows:
   integration_tests:
     jobs:
       - build_and_test
+      - build_api
 

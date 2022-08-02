@@ -1,0 +1,71 @@
+{
+  "entry": {
+    "phonology": {
+      "initialDominantHandshape": "Initial dominant handshape",
+      "initialSubordinateHandshape": "Initial subordinate handshape",
+      "finalDominantHandshape": "Final dominant handshape",
+      "finalSubordinateHandshape": "Final subordinate handshape",
+      "initialPrimaryLocation": "Initial primary location",
+      "finalPrimaryLocation": "Final primary location",
+      "initialPalmOrientation": "Initial palm orientation",
+      "finalPalmOrientation": "Final palm orientation",
+      "initialDominantInteractingHandpart": "Initial dominant interacting handpart",
+      "finalDominantInteractingHandpart": "Final dominant interacting handpart",
+      "initialSubordinateInteractingHandPart": "Initial subordinate interacting handpart",
+      "finalSubordinateInteractingHandPart": "Final subordinate interacting handpart",
+      "secondaryLocation": "Secondary location",
+      "initialSecondaryLocation": "Initial secondary location",
+      "finalSecondaryLocation": "Final secondary location"
+    },
+    "detail": {
+      "basic-heading": "Basic properties",
+      "dialect-heading": "Dialects and regional frequencies",
+      "publication-heading": "Publication status",
+      "phonology-heading": "Phonology",
+      "relations-heading": "Relations",
+      "definitions-heading": "Definitions/notes",
+      "publish-button": "Publish",
+      "unpublish-button": "Unpublish",
+      "publicly-visible": "This sign is visible to the public",
+      "not-publicly-visible": "This sign is not visible to the public",
+      "definition-published": "Published",
+      "definition-role": "Role",
+      "definition-text": "Text",
+      "add-definition": "Add definition"
+    },
+    "id-gloss": "ID Gloss",
+    "annotation-id-gloss": "Annotation ID Gloss",
+    "distribution-heading": "Distribution",
+    "keywords-heading": "Keywords",
+    "switch-view-to_detail": "Detail view",
+    "switch-view-to_public": "Public view",
+    "no-definitions": "This sign has no definitions.",
+    "sl-native-definition-heading_asf": "Auslan definition",
+    "definition-as-pos_noun": "As a noun",
+    "definition-as-pos_verb": "As a verb",
+    "report-sign-link": "Report missing sign",
+    "feedback-link": "Give feedback on this entry",
+    "enlarge-reminder": "(Click to enlarge)",
+    "variant-heading": "Variants"
+  },
+  "error": {
+    "page-load": "An error occurred"
+  },
+  "region-info-box": {
+    "distribution-heading": "Sign distribution"
+  },
+  "page-loading": "loading...",
+  "usage.traditional": "traditional",
+  "search-placeholder": "Search...",
+  "n/a": "N/A",
+  "human-readable-region-name_AUS": "Australia-wide",
+  "human-readable-region-name_NTH": "Northern Dialect",
+  "human-readable-region-name_STH": "Southern Dialect",
+  "human-readable-region-name_VIC": "Victoria",
+  "human-readable-region-name_QLD": "Queensland",
+  "human-readable-region-name_TAS": "Tasmania",
+  "human-readable-region-name_SA": "South Australia",
+  "human-readable-region-name_NT": "Northern Territory",
+  "human-readable-region-name_WA": "Western Australia",
+  "human-readable-region-name_NSW": "New South Wales"
+}

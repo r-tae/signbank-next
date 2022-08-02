@@ -1,6 +1,24 @@
 # Signbank Next
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/r-tae/signbank-next/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/r-tae/signbank-next/tree/main)
 
+## TODO: integration tests that we need
+> TODO: before most integration tests will work we need to seed the database
+- window loads
+- i18n works properly (should test switching between locales eventually, not MVP because Auslan doesn't need it) 
+NOTE: I put some of these in a separate file somewhere in the cypress folder too
+
+Remove some of the configuration files at project root, they're very cluttered
+Try a "production" deployment
+Database seeding
+Database backups with mgob image
+Database schema
+some rest APIs, PATCH for the admin/lexicographer/detail view
+an editing detail view (maybe just add edit buttons to fields for people who can edit)
+Remove homepage
+(well, actually split it into a SSG website, possibly with hugo, but also nextjs would work fine as well
+Consider using a proper UI library, or rolling our own components for reuse across the two
+
+
 The latest iteration of Auslan Signbank, built with NextJS.
 
 ## Deployment
