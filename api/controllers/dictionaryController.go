@@ -6,6 +6,7 @@ import (
 	"math"
 	"strconv"
 	"time"
+	"fmt"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/r-tae/signbank-api/config"
@@ -13,23 +14,38 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"
+
+	"go.opentelemetry.io/otel"
+	"go.opentelemetry.io/otel/attribute"
+	// semconv "go.opentelemetry.io/otel/semconv/v1.4.0"
+	oteltrace "go.opentelemetry.io/otel/trace"
 )
 
+var tracer = otel.Tracer("fiber-server")
+
 func GetAllEntries(c *fiber.Ctx) error {
+	_, span := tracer.Start(
+    c.UserContext(),
+    "GetAllEntries",
+    oteltrace.WithAttributes(attribute.String("query", c.Query("s"))),
+  )
+	defer span.End()
+
 	entryCollection := config.MI.DB.Collection("dictionary")
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, _ := context.WithTimeout(c.UserContext(), 10*time.Second)
 
 	var entries []models.Entry
 
 	filter := bson.M{}
 	findOptions := options.Find()
 
+	
 	// NOTE: basic search only searches exact matches on keywords for now
 	if s := c.Query("s"); s != "" {
 		filter = bson.M{
 			"keywords.text": bson.M{
 				"$regex": primitive.Regex{
-					Pattern: "^" + s + "$",
+					Pattern: fmt.Sprintf(`^%s( ?\(.*)?$`, s),
 					Options: "i",
 				},
 			},
@@ -77,6 +93,13 @@ func GetAllEntries(c *fiber.Ctx) error {
 }
 
 func GetEntry(c *fiber.Ctx) error {
+	_, span := tracer.Start(
+    c.UserContext(),
+    "GetEntry",
+    oteltrace.WithAttributes(attribute.String("id", c.Params("id"))),
+  )
+	defer span.End()
+
 	entryCollection := config.MI.DB.Collection("dictionary")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
@@ -107,6 +130,12 @@ func GetEntry(c *fiber.Ctx) error {
 }
 
 func AddEntry(c *fiber.Ctx) error {
+	_, span := tracer.Start(
+    c.UserContext(),
+    "AddEntry",
+  )
+	defer span.End()
+
 	entryCollection := config.MI.DB.Collection("dictionary")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	entry := new(models.Entry)
@@ -137,6 +166,13 @@ func AddEntry(c *fiber.Ctx) error {
 }
 
 func UpdateEntry(c *fiber.Ctx) error {
+	_, span := tracer.Start(
+    c.UserContext(),
+    "UpdateEntry",
+    oteltrace.WithAttributes(attribute.String("id", c.Params("id"))),
+  )
+	defer span.End()
+
 	entryCollection := config.MI.DB.Collection("dictionary")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	entry := new(models.Entry)
@@ -177,6 +213,13 @@ func UpdateEntry(c *fiber.Ctx) error {
 }
 
 func DeleteEntry(c *fiber.Ctx) error {
+	_, span := tracer.Start(
+    c.UserContext(),
+    "DeleteEntry",
+    oteltrace.WithAttributes(attribute.String("id", c.Params("id"))),
+  )
+	defer span.End()
+
 	entryCollection := config.MI.DB.Collection("dictionary")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 

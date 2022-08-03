@@ -2,7 +2,6 @@
 // TODO: I would like to set up both tracing and metrics, jaegar for tracing, prometheus for metrics
 
 const process = require("process")
-const { Metadata, credentials } = require("@grpc/grpc-js")
 const opentelemetry = require("@opentelemetry/sdk-node")
 const {
   getNodeAutoInstrumentations,
@@ -12,21 +11,19 @@ const {
   SemanticResourceAttributes,
 } = require("@opentelemetry/semantic-conventions")
 const { OTLPTraceExporter } = require("@opentelemetry/exporter-trace-otlp-grpc")
-const { PrometheusExporter } = require("@opentelemetry/exporter-prometheus")
 
 // Run your custom nextjs server, we'll show more on this next
 const { startServer } = require("./server")
 
 const traceExporter = new OTLPTraceExporter({
-  url: "grpc://api.honeycomb.io:443/",
-  credentials: credentials.createSsl(),
+  url: process.env.JAEGER_COLLECTOR_ENDPOINT,
 })
 
 // configure the SDK to export telemetry data to the console
 // enable all auto-instrumentations from the meta package
 const sdk = new opentelemetry.NodeSDK({
   resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: "Signbank UI",
+    [SemanticResourceAttributes.SERVICE_NAME]: "dictionary-ui",
   }),
   traceExporter,
   instrumentations: [

@@ -9,17 +9,20 @@ import {
   XIcon,
 } from '@heroicons/react/solid'
 import type { NextPage } from 'next'
+import getConfig from "next/config";
 import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 import { SWRResponse } from 'swr/dist/types'
+const { publicRuntimeConfig } = getConfig();
+
 
 import { Button } from '@/components/basic/button'
+import { Switch } from '@/components/basic/switch'
 import { useDictionaryEntry } from '@/lib/dictionary/hooks'
 import { Definition, DetailDictionaryEntry } from '@/types/api/entry'
-import { Switch } from '@/components/basic/switch'
 
 // TODO: use like actual buttons for publishing, not whatever we have now
 // TODO: make reording definitions a drag-drop operation instead of the legacy jank (make the move up/down buttons are more accessible?)
@@ -348,7 +351,7 @@ const DictionaryEntry: NextPage = () => {
     <main className="max-w-6xl overflow-visible px-16 xl:px-0">
       <Head>
         <title>
-          {data.data.idGloss} | {process.env.NEXT_PUBLIC_SITE_NAME}
+          {data.data.idGloss} | {publicRuntimeConfig.SITE_NAME}
         </title>
       </Head>
       <div className="flex flex-col gap-4 md:flex-row">
@@ -357,7 +360,7 @@ const DictionaryEntry: NextPage = () => {
           {/* TODO: show other versions somehow if logged in with an editor role */}
           <video
             className="mb-1 mt-10 w-full rounded bg-gray-300 md:mt-0"
-            src={`${process.env.NEXT_PUBLIC_STATIC_URL}${
+            src={`${publicRuntimeConfig.STATIC_URL}${
               data.data.videos.sort(
                 (a: { version: number }, b: { version: number }) =>
                   a.version - b.version

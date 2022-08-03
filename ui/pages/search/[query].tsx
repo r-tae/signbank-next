@@ -18,7 +18,7 @@ const SearchResults: NextPage = () => {
   if (error) return <div>{error.message}</div>
   if (!data) return <div>{t('page-loading')}</div>
 
-  if (!results) return <div>No signs found for "{searchQuery}".</div>
+  if (!results) return <div>No signs found for &quot;{searchQuery}&quot;.</div>
 
   return (
     <main className="w-full max-w-6xl overflow-visible px-16 xl:px-0">

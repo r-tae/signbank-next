@@ -5,10 +5,12 @@ import {
   InformationCircleIcon,
 } from '@heroicons/react/solid'
 import type { NextPage } from 'next'
+import getConfig from "next/config";
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
+const { publicRuntimeConfig } = getConfig();
 
 import { Button } from '@/components/basic/button'
 import { RegionInfoBox } from '@/components/region'
@@ -54,7 +56,7 @@ const DictionaryEntry: NextPage = () => {
         <title>
           {entry.keywords[0].text.charAt(0).toUpperCase() +
             entry.keywords[0].text.slice(1)}{' '}
-          | {process.env.NEXT_PUBLIC_SITE_NAME}
+          | {publicRuntimeConfig.SITE_NAME}
         </title>
       </Head>
       <div className="flex flex-col gap-4 md:flex-row">
@@ -63,7 +65,7 @@ const DictionaryEntry: NextPage = () => {
           {/* TODO: show other versions somehow if logged in with an editor role */}
           <video
             className="mb-1 mt-10 w-full rounded bg-gray-300 md:mt-0"
-            src={`${process.env.NEXT_PUBLIC_STATIC_URL}${
+            src={`${publicRuntimeConfig.STATIC_URL}${
               (entry as DetailDictionaryEntry).videos.sort(
                 (a: { version: number }, b: { version: number }) =>
                   a.version - b.version
@@ -114,7 +116,7 @@ const DictionaryEntry: NextPage = () => {
                     <video
                       key={entry?.videoUrl}
                       className="mb-1 mt-10 w-44 rounded bg-gray-300 md:mt-0"
-                      src={`${process.env.NEXT_PUBLIC_STATIC_URL}${entry?.videoUrl}`}
+                      src={`${publicRuntimeConfig.STATIC_URL}${entry?.videoUrl}`}
                     />
                   ))}
               </div>
