@@ -4,25 +4,51 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu2004
+global_job_config:
+  prologue:
+    commands:
+      - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+      - docker login $PRIVATE_REG
+  env_vars:
+    - name: PRIVATE_REG
+      value: registry.digitalocean.com
+    - name: PUBLIC_REG
+      value: docker.io
+    - name: API_IMAGE_NAME
+      value: signbank/signbank-api
+    - name: UI_IMAGE_NAME
+      value: signbank/signbank-next
 blocks:
-  - name: Push images
+  - name: Pull
     task:
       jobs:
         - name: UI
           commands:
-            - 'docker push $UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker pull $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
         - name: API
           commands:
-            - 'docker push $API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker pull $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
       secrets:
+        - name: DigitalOcean registry credentials
         - name: Docker hub credentials
-      env_vars:
-        - name: API_IMAGE_NAME
-          value: signbank/signbank-api
-        - name: UI_IMAGE_NAME
-          value: signbank/signbank-next
-      prologue:
-        commands:
-          - docker login \
-          - '  --username $DOCKERHUB_USERNAME \'
-          - '  --password $DOCKERHUB_PASSWORD'
+  - name: Tag
+    task:
+      secrets:
+        - name: DigitalOcean registry credentials
+        - name: Docker hub credentials
+      jobs:
+        - name: UI
+          commands:
+            - 'docker tag $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME $PUBLIC_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+        - name: API
+          commands:
+            - 'docker tag $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME $PUBLIC_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+  - name: Push
+    task:
+      jobs:
+        - name: UI
+          commands:
+            - 'docker push $PUBLIC_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+        - name: API
+          commands:
+            - 'docker push $PUBLIC_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'

@@ -4,38 +4,49 @@ agent:
   machine:
     type: e1-standard-2
     os_image: ubuntu2004
+global_job_config:
+  prologue:
+    commands:
+      - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
+      - docker login $PRIVATE_REG
+  env_vars:
+    - name: PRIVATE_REG
+      value: registry.digitalocean.com
+    - name: PUBLIC_REG
+      value: docker.io
+    - name: API_IMAGE_NAME
+      value: signbank/signbank-api
+    - name: UI_IMAGE_NAME
+      value: signbank/signbank-next
 blocks:
-  - name: Build docker images
+  - name: Build
     task:
       jobs:
-        - name: API
-          commands:
-            - checkout
-            - cd api
-            - 'IMAGE=$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
-            - docker build . -t IMAGE
         - name: UI
           commands:
             - checkout
             - cd ui
-            - 'IMAGE=$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
-            - docker build . -t IMAGE
-      env_vars:
-        - name: API_IMAGE_NAME
-          value: signbank/signbank-api
-        - name: UI-IMAGE-NAME
-          value: signbank/signbank-next
-      prologue:
-        commands:
-          - docker login \
-          - '  --username $DOCKERHUB_USERNAME \'
-          - '  --password $DOCKERHUB_PASSWORD'
+            - 'docker build . -t $UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+        - name: API
+          commands:
+            - checkout
+            - cd api
+            - 'docker build . -t $API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
   - name: Smoke test
     task:
       jobs:
         - name: API+UI
           commands:
             - 'echo "TODO: run the images locally with a minimal config"'
+  - name: Push to private registry
+    task:
+      jobs:
+        - name: UI
+          commands:
+            - 'docker push $PUBLIC_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+        - name: API
+          commands:
+            - 'docker push $PUBLIC_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
 promotions:
-  - name: Deploy images
+  - name: Promote images to Docker Hub
     pipeline_file: deploy.yml
