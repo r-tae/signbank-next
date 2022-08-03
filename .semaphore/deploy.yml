@@ -1,0 +1,28 @@
+version: v1.0
+name: Deploy
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+blocks:
+  - name: Push images
+    task:
+      jobs:
+        - name: UI
+          commands:
+            - 'docker push $UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+        - name: API
+          commands:
+            - 'docker push $API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+      secrets:
+        - name: Docker hub credentials
+      env_vars:
+        - name: API_IMAGE_NAME
+          value: signbank/signbank-api
+        - name: UI_IMAGE_NAME
+          value: signbank/signbank-next
+      prologue:
+        commands:
+          - docker login \
+          - '  --username $DOCKERHUB_USERNAME \'
+          - '  --password $DOCKERHUB_PASSWORD'

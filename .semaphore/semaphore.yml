@@ -1,5 +1,5 @@
 version: v1.0
-name: Initial Pipeline
+name: Build
 agent:
   machine:
     type: e1-standard-2
@@ -25,9 +25,17 @@ blocks:
           value: signbank/signbank-api
         - name: UI-IMAGE-NAME
           value: signbank/signbank-next
+      prologue:
+        commands:
+          - docker login \
+          - '  --username $DOCKERHUB_USERNAME \'
+          - '  --password $DOCKERHUB_PASSWORD'
   - name: Smoke test
     task:
       jobs:
         - name: API+UI
           commands:
             - 'echo "TODO: run the images locally with a minimal config"'
+promotions:
+  - name: Deploy images
+    pipeline_file: deploy.yml
