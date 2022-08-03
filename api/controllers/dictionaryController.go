@@ -25,11 +25,11 @@ func GetAllEntries(c *fiber.Ctx) error {
 	findOptions := options.Find()
 
 	// NOTE: basic search only searches exact matches on keywords for now
-	if s := c.Query("s"); s != "" {
+	if s != "" {
 		filter = bson.M{
 			"keywords.text": bson.M{
 				"$regex": primitive.Regex{
-					Pattern: "^" + s + "$",
+					Pattern: fmt.Sprintf(`^%s( ?\(.*)?$`, s),
 					Options: "i",
 				},
 			},
