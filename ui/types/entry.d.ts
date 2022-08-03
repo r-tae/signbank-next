@@ -1,7 +1,7 @@
 export type Definition = {
   text: string
   published: boolean
-  partOfSpeech: string
+  role: string
 }
 
 export type Keyword = {

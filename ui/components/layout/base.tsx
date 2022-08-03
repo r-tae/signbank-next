@@ -1,11 +1,13 @@
 import React, { FC, useState } from 'react'
 import { MenuIcon } from '@heroicons/react/outline'
 import { SearchIcon } from '@heroicons/react/solid'
+import getConfig from "next/config";
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
+const { publicRuntimeConfig } = getConfig();
 
 import Logo from 'components/logo'
 
@@ -153,7 +155,7 @@ export function BaseLayout({ children }: props): JSX.Element {
   return (
     <>
       <Head>
-        <title>{process.env.NEXT_PUBLIC_SITE_NAME}</title>
+        <title>{publicRuntimeConfig.SITE_NAME}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="space-between relative flex min-h-screen w-full flex-col overflow-hidden bg-light-cream">
