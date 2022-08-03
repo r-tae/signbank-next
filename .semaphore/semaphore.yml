@@ -25,8 +25,6 @@ blocks:
           value: signbank/signbank-api
         - name: UI-IMAGE-NAME
           value: signbank/signbank-next
-    run:
-      when: branch = 'master'
   - name: Smoke test
     task:
       jobs:
