@@ -22,12 +22,12 @@ blocks:
           commands:
             - checkout
             - cd ui
-            - 'docker build . -t $UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker build . -t $UI_IMAGE_NAME:$SEMAPHORE_GIT_SHA'
         - name: API
           commands:
             - checkout
             - cd api
-            - 'docker build . -t $API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker build . -t $API_IMAGE_NAME:$SEMAPHORE_GIT_SHA'
     dependencies: []
   - name: Smoke test
     task:
@@ -62,10 +62,10 @@ blocks:
       jobs:
         - name: UI
           commands:
-            - 'docker tag $UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker tag $UI_IMAGE_NAME:$SEMAPHORE_GIT_SHA $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
         - name: API
           commands:
-            - 'docker tag $API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker tag $API_IMAGE_NAME:$SEMAPHORE_GIT_SHA $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
 promotions:
   - name: Promote images to Docker Hub
     pipeline_file: deploy.yml
