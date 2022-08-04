@@ -5,10 +5,6 @@ agent:
     type: e1-standard-2
     os_image: ubuntu2004
 global_job_config:
-  prologue:
-    commands:
-      - echo $DOCKERHUB_PASSWORD | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
-      - docker login $PRIVATE_REG
   env_vars:
     - name: PRIVATE_REG
       value: registry.digitalocean.com
@@ -26,12 +22,12 @@ blocks:
           commands:
             - checkout
             - cd ui
-            - 'docker build . -t $UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker build . -t $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
         - name: API
           commands:
             - checkout
             - cd api
-            - 'docker build . -t $API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker build . -t $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
   - name: Smoke test
     task:
       jobs:
@@ -43,10 +39,15 @@ blocks:
       jobs:
         - name: UI
           commands:
-            - 'docker push $PUBLIC_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker push $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
         - name: API
           commands:
-            - 'docker push $PUBLIC_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker push $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+      secrets:
+        - name: DigitalOcean registry credentials
+      prologue:
+        commands:
+          - docker login $PRIVATE_REG
 promotions:
   - name: Promote images to Docker Hub
     pipeline_file: deploy.yml
