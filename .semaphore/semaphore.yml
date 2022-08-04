@@ -53,6 +53,8 @@ blocks:
           - docker login $PRIVATE_REG
     dependencies:
       - Tag
+    skip:
+      when: tag !~ '^v'
   - name: Tag
     dependencies:
       - Smoke test
