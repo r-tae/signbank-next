@@ -22,27 +22,42 @@ blocks:
   - name: Pull
     task:
       jobs:
-        - name: UI
+        - name: Pull
           commands:
-            - 'docker pull $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
-        - name: API
-          commands:
-            - 'docker pull $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker pull $PRIVATE_REG/$IMAGE:$SEMAPHORE_GIT_TAG_NAME'
+          matrix:
+            - env_var: IMAGE
+              values:
+                - signbank/signbank-next
+                - signbank/signbank-api
       secrets:
         - name: DigitalOcean registry credentials
         - name: Docker hub credentials
+      epilogue:
+        on_pass:
+          commands:
+            - cache store
   - name: Tag
     task:
       secrets:
         - name: DigitalOcean registry credentials
         - name: Docker hub credentials
       jobs:
-        - name: UI
+        - name: 'Job #3'
           commands:
-            - 'docker tag $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME $PUBLIC_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
-        - name: API
+            - 'docker tag $PRIVATE_REG/$IMAGE:$SEMAPHORE_GIT_TAG_NAME $PUBLIC_REG/$IMAGE:$SEMAPHORE_GIT_TAG_NAME'
+          matrix:
+            - env_var: IMAGE
+              values:
+                - signbank/signbank-next
+                - signbank/signbank-api
+      prologue:
+        commands:
+          - cache restore
+      epilogue:
+        on_pass:
           commands:
-            - 'docker tag $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME $PUBLIC_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - cache store
   - name: Push
     task:
       jobs:
@@ -52,3 +67,6 @@ blocks:
         - name: API
           commands:
             - 'docker push $PUBLIC_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+      prologue:
+        commands:
+          - cache restore
