@@ -20,54 +20,75 @@ blocks:
       jobs:
         - name: UI
           commands:
-            - checkout
             - cd ui
             - 'docker build . -t $UI_IMAGE_NAME:$SEMAPHORE_GIT_SHA'
         - name: API
           commands:
-            - checkout
             - cd api
             - 'docker build . -t $API_IMAGE_NAME:$SEMAPHORE_GIT_SHA'
+      prologue:
+        commands:
+          - checkout
+      epilogue:
+        on_pass:
+          commands:
+            - cache store
     dependencies: []
-  - name: Smoke test
+  - name: Test
     task:
       jobs:
         - name: API+UI
           commands:
             - 'echo "TODO: run the images locally with a minimal config"'
+      prologue:
+        commands:
+          - cache restore
     dependencies:
       - Build
   - name: Push to private registry
     task:
       jobs:
-        - name: UI
+        - name: Push
           commands:
-            - 'docker push $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
-        - name: API
-          commands:
-            - 'docker push $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker push $PRIVATE_REG/$IMAGE:$SEMAPHORE_GIT_TAG_NAME'
+          matrix:
+            - env_var: IMAGE
+              values:
+                - signbank/signbank-next
+                - signbank/signbank-api
       secrets:
         - name: DigitalOcean registry credentials
       prologue:
         commands:
           - docker login $PRIVATE_REG
+          - cache restore
     dependencies:
       - Tag
+      - Test
     skip:
       when: tag !~ '^v'
   - name: Tag
     dependencies:
-      - Smoke test
+      - Build
     skip:
       when: tag !~ '^v'
     task:
       jobs:
-        - name: UI
+        - name: Tag
           commands:
-            - 'docker tag $UI_IMAGE_NAME:$SEMAPHORE_GIT_SHA $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
-        - name: API
+            - 'docker tag $IMAGE:$SEMAPHORE_GIT_SHA $PRIVATE_REG/$IMAGE:$SEMAPHORE_GIT_TAG_NAME'
+          matrix:
+            - env_var: IMAGE
+              values:
+                - signbank/signbank-next
+                - signbank/signbank-api
+      prologue:
+        commands:
+          - cache restore
+      epilogue:
+        on_pass:
           commands:
-            - 'docker tag $API_IMAGE_NAME:$SEMAPHORE_GIT_SHA $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - cache store
 promotions:
   - name: Promote images to Docker Hub
     pipeline_file: deploy.yml
