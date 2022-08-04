@@ -22,18 +22,21 @@ blocks:
           commands:
             - checkout
             - cd ui
-            - 'docker build . -t $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker build . -t $UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
         - name: API
           commands:
             - checkout
             - cd api
-            - 'docker build . -t $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+            - 'docker build . -t $API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+    dependencies: []
   - name: Smoke test
     task:
       jobs:
         - name: API+UI
           commands:
             - 'echo "TODO: run the images locally with a minimal config"'
+    dependencies:
+      - Build
   - name: Push to private registry
     task:
       jobs:
@@ -48,6 +51,21 @@ blocks:
       prologue:
         commands:
           - docker login $PRIVATE_REG
+    dependencies:
+      - Tag
+  - name: Tag
+    dependencies:
+      - Smoke test
+    skip:
+      when: tag !~ '^v'
+    task:
+      jobs:
+        - name: UI
+          commands:
+            - 'docker tag $UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+        - name: API
+          commands:
+            - 'docker tag $API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
 promotions:
   - name: Promote images to Docker Hub
     pipeline_file: deploy.yml
