@@ -48,7 +48,7 @@ func initTracer() *sdktrace.TracerProvider {
 		sdktrace.WithResource(
 			resource.NewWithAttributes(
 				semconv.SchemaURL,
-				semconv.ServiceNameKey.String("dictionary-api"),
+				semconv.ServiceNameKey.String(os.Getenv("JAEGER_SERVICE_NAME")),
         attribute.String("environment", os.Getenv("APP_ENV")),
 			)),
 	)

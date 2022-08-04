@@ -23,7 +23,7 @@ const traceExporter = new OTLPTraceExporter({
 // enable all auto-instrumentations from the meta package
 const sdk = new opentelemetry.NodeSDK({
   resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: "dictionary-ui",
+    [SemanticResourceAttributes.SERVICE_NAME]: process.env.JAEGER_UI_SERVICE_NAME,
   }),
   traceExporter,
   instrumentations: [
