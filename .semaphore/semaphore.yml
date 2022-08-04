@@ -1,0 +1,73 @@
+version: v1.0
+name: Build
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu2004
+global_job_config:
+  env_vars:
+    - name: PRIVATE_REG
+      value: registry.digitalocean.com
+    - name: PUBLIC_REG
+      value: docker.io
+    - name: API_IMAGE_NAME
+      value: signbank/signbank-api
+    - name: UI_IMAGE_NAME
+      value: signbank/signbank-next
+blocks:
+  - name: Build
+    task:
+      jobs:
+        - name: UI
+          commands:
+            - checkout
+            - cd ui
+            - 'docker build . -t $UI_IMAGE_NAME:$SEMAPHORE_GIT_SHA'
+        - name: API
+          commands:
+            - checkout
+            - cd api
+            - 'docker build . -t $API_IMAGE_NAME:$SEMAPHORE_GIT_SHA'
+    dependencies: []
+  - name: Smoke test
+    task:
+      jobs:
+        - name: API+UI
+          commands:
+            - 'echo "TODO: run the images locally with a minimal config"'
+    dependencies:
+      - Build
+  - name: Push to private registry
+    task:
+      jobs:
+        - name: UI
+          commands:
+            - 'docker push $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+        - name: API
+          commands:
+            - 'docker push $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+      secrets:
+        - name: DigitalOcean registry credentials
+      prologue:
+        commands:
+          - docker login $PRIVATE_REG
+    dependencies:
+      - Tag
+    skip:
+      when: tag !~ '^v'
+  - name: Tag
+    dependencies:
+      - Smoke test
+    skip:
+      when: tag !~ '^v'
+    task:
+      jobs:
+        - name: UI
+          commands:
+            - 'docker tag $UI_IMAGE_NAME:$SEMAPHORE_GIT_SHA $PRIVATE_REG/$UI_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+        - name: API
+          commands:
+            - 'docker tag $API_IMAGE_NAME:$SEMAPHORE_GIT_SHA $PRIVATE_REG/$API_IMAGE_NAME:$SEMAPHORE_GIT_TAG_NAME'
+promotions:
+  - name: Promote images to Docker Hub
+    pipeline_file: deploy.yml
