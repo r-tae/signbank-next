@@ -59,7 +59,7 @@ func ConnectDB() {
 	}
 
   opts := options.Client()
-	if os.Getenv("JAEGER_COLLECTOR_ENDPOINT") {
+	if os.Getenv("JAEGER_COLLECTOR_ENDPOINT") != "" {
 		opts.Monitor = otelmongo.NewMonitor()
 	}
   opts.ApplyURI(os.Getenv("MONGO_URI"))
