@@ -3,6 +3,11 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
 import { useHeaderContext } from '@/components/layout'
 import { Search } from '@/components/search'
+import Link from 'next/link'
+import { ReactNode } from 'react'
+
+// TODO: remove this
+type TempQuickLink = [ReactNode, string]
 
 const Home: NextPage = () => {
   const { showSearchBar, setShowSearchBar } = useHeaderContext()
@@ -12,7 +17,32 @@ const Home: NextPage = () => {
       <div className="m-50 mb-8 flex justify-center">
         <Search />
       </div>
-      <div className="before:width-[100vw] relative z-10 py-8 text-slate-100 before:absolute before:top-0 before:left-[-1000px] before:right-[-1000px] before:z-0 before:h-full before:bg-custom-green">
+      <div className='m-50 mb-8 flex flex-col justify-center'>
+        <h2 className='text-2xl mb-2'>
+          Quick links <span className='text-lg'>(for ease of testing)</span>
+        </h2>
+        <div className='text-lg flex flex-row gap-4'>
+            {
+              ([
+                [<pre>house1a</pre>, `/dictionary/house1a` ],
+                ['No video', `/dictionary/Portugal` ],
+                // ['One video', `/dictionary/` ],
+                ['Has variants', `/dictionary/low-flat-surface1a` ],
+                ['No definitions', `/dictionary/trolley` ],
+                ['Is variant', `/dictionary/house1b` ],
+              ] as TempQuickLink[]).map(([text, link]: TempQuickLink) => (
+                <Link href={link}>
+                  <a className='px-4 py-2 bg-sky-800 text-white rounded'>
+                    {text}
+                  </a>
+                </Link>
+              ))
+            }
+        </div>
+      </div>
+      <div className={
+        `before:width-[100vw] relative z-10 py-8 text-slate-100 before:absolute before:top-0 ` +
+        `before:left-[-1000px] before:right-[-1000px] before:z-0 before:h-full before:bg-custom-green`}>
         <div className="text-md relative mt-3 flex flex-row flex-wrap gap-x-8 gap-y-4">
           <section className="min-w-[40ch] max-w-[80ch] shrink grow basis-[16rem]">
             <h1 className="relative text-left text-2xl font-bold">

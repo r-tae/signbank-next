@@ -1,5 +1,6 @@
 import React from 'react'
 import { useRouter } from 'next/router'
+import styles from './button.module.scss'
 
 type ButtonProps = { children: any; className?: string } & (
   | {
@@ -23,9 +24,11 @@ export const Button = ({ children, onClick, href, className = "", ...props}: But
 
   return (
     <button
+      className={styles.button}
       onClick={onClick}
       {...props}
-      className={`${props.disabled ? 'cursor-not-allowed bg-gray-50 text-slate-500 border-gray-200' : 'bg-gray-200 text-slate-800 border-gray-300'} border-md rounded border px-2 ${className}`}
+      disabled={props.disabled}
+      // className={`${props.disabled ? 'cursor-not-allowed bg-gray-50 text-slate-500 border-gray-200' : 'bg-gray-200 text-slate-800 border-gray-300'} border-md rounded border px-2 py-1 ${className}`}
     >
       {children}
     </button>

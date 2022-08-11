@@ -1,0 +1,15 @@
+.button {
+  &:disabled {
+    cursor: not-allowed;
+    background-color: $gray-50;
+    color: $slate-500;
+    border: 1px solid $gray-200;
+  }
+
+  cursor: pointer;
+  background-color: $gray-200;
+  color: $slate-800;
+  border: 2px solid $gray-300;
+  border-radius: 5px;
+  padding: 0.25rem 0.5rem;
+}

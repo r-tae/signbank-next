@@ -5,13 +5,14 @@ type props = {
   imgClassName?: string
 }
 
-const Layout: FC<props> = React.forwardRef(function Layout(
+const Logo: FC<props> = React.forwardRef(function Layout(
   { imgClassName, className, ...props },
   ref: React.LegacyRef<any>
 ) {
   return (
     <a
-      className={`flex shrink-0 grow self-end ${className || ''}`}
+      style={{ display: 'flex', flexShrink: 0, flexGrow: '1', justifySelf: 'end'}}
+      // className={`flex shrink-0 grow self-end ${className || ''}`}
       {...props}
       ref={ref}
     >
@@ -24,4 +25,4 @@ const Layout: FC<props> = React.forwardRef(function Layout(
   )
 })
 
-export default Layout
+export default Logo

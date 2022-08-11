@@ -1,0 +1,25 @@
+.headsign {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  video {
+    background-color: $stone-50;
+    width: 100%;
+    border-radius: 0.25rem;
+    border: 1px solid $gray-400;
+
+    @media (min-width: $media-md) {
+      margin-top: 0;
+    }
+  }
+
+  :global(.userIsLexicographer) & {
+    video {
+      border-radius: 0;
+      border-top-left-radius: 0.25rem;
+      border-top-right-radius: 0.25rem;  
+      border-bottom-width: 0;
+      border-bottom: 1px;
+    }
+  }
+}

@@ -35,4 +35,8 @@ module.exports = withReactSvg({
   output: 'standalone',
   i18n,
   reactStrictMode: true,
+  sassOptions: {
+    includePaths: [path.join(__dirname, "styles")],
+    prependData: `@import "_variables.scss";`
+  }
 })

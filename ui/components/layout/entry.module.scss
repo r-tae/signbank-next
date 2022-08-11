@@ -1,0 +1,46 @@
+.entry {
+  overflow: visible;
+  padding-left: 4rem;
+  padding-right: 4rem;
+  max-width: 72rem;
+
+  @media (min-width: $media-lg) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  &>div {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    @media (min-width: $media-md) {
+      flex-direction: row;
+    }
+  }
+}
+
+.sidebar {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 33.33%;
+}
+
+.body {
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: 66.66%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sidebarPanel {
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid $gray-400;
+  border-radius: 5px;
+  background-color: $stone-50;
+}

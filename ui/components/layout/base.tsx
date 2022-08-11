@@ -1,5 +1,4 @@
-import React, { FC, useState } from 'react'
-import { MenuIcon } from '@heroicons/react/outline'
+import React, { FC, ReactNode, useState } from 'react'
 import { SearchIcon } from '@heroicons/react/solid'
 import getConfig from "next/config";
 import Head from 'next/head'
@@ -8,8 +7,17 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useTranslation } from 'next-i18next'
 const { publicRuntimeConfig } = getConfig();
+import styles from './base.module.scss'
 
-import Logo from 'components/logo'
+import { Box, Container } from '@mui/system';
+import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/joy/IconButton';
+import Sheet from '@mui/joy/Sheet';
+import JoyLink from '@mui/joy/Link';
+import ClickAwayListener from '@mui/base/ClickAwayListener';
+import { ModalUnstyled } from '@mui/base';
+import clsx from 'clsx';
+
 
 type props = {
   children: JSX.Element | JSX.Element[]
@@ -86,7 +94,7 @@ type HeaderContextType = {
 
 export const HeaderContext = React.createContext<HeaderContextType>({
   showSearchBar: false,
-  setShowSearchBar: () => {},
+  setShowSearchBar: () => { },
 })
 
 export const useHeaderContext = () => React.useContext(HeaderContext)
@@ -103,7 +111,7 @@ export const useHeaderContext = () => React.useContext(HeaderContext)
 // TODO: switch to hamburger menu below md
 // TODO: the login/register link should be anchored to the top of the screen, offset from the right by the extra
 //       margin (10vw) plus a constant amount (`w-[calc(10vw + 3em)]` with `min-w-20-or-so`)
-const Header = ({
+const ArchiveHeader = ({
   toggleMenu,
   menuOpen,
 }: {
@@ -114,14 +122,15 @@ const Header = ({
 
   return (
     <HeaderContext.Provider value={{ setShowSearchBar, showSearchBar }}>
-      <div className="flex min-h-[90px] w-full flex-row justify-center bg-custom-green text-cream lg:min-h-[120px]">
-        <div className="mt-7 flex w-3/4 max-w-6xl flex-row pb-8 lg:mt-0">
+      <div className={styles.header}>
+        <div>
           <Link href="/" passHref>
             <Logo
-              className="h-10 shrink-0 basis-[140px] lg:h-20 lg:basis-[290px]"
-              imgClassName="relative lg:top-[0.45em]"
+              className={styles.logo}
+              imgClassName={styles.logoImg}
             />
           </Link>
+          {/* TODO: menu styling, actually make a half-functioning menu */}
           <ul className="flex flex-1 shrink items-stretch space-x-6">
             {showSearchBar ? (
               <div className="flex flex-row">
@@ -145,7 +154,179 @@ const Header = ({
   )
 }
 
-export function BaseLayout({ children }: props): JSX.Element {
+const BackdropUnstyled = React.forwardRef<
+  HTMLDivElement,
+  { open?: boolean; className: string }
+>((props, ref) => {
+  const { open, className, ...other } = props;
+  return (
+    <Box
+      sx={{
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        position: 'fixed',
+        right: 0,
+        bottom: 0,
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: '1000',
+        "-webkit-tap-highlight-color": "transparent",
+      }}
+      className={clsx({ 'MuiBackdrop-open': open }, className)}
+      ref={ref}
+      {...other}
+    />
+  );
+})
+
+const Backdrop = (props: any) => {
+  return (
+    <BackdropUnstyled {...props}>
+    </BackdropUnstyled>
+  )
+
+}
+
+
+const HamburgerMenu = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  const handleOpenMenu = (e: any) => {
+    setIsMenuOpen(true)
+    e.stopPropagation()
+  }
+  const handleCloseMenu = (e: any) => {
+    setIsMenuOpen(false)
+    e.stopPropagation()
+  }
+
+
+  return (
+    <>
+      <JoyLink
+        component="button"
+        sx={{ position: 'fixed', fontSize: '2em', left: '0', marginLeft: 2 }}
+        onClick={handleOpenMenu}
+      >
+        <MenuIcon sx={{ color: '#fff' }} />
+      </JoyLink>
+      <ModalUnstyled
+        components={{ Backdrop }}
+        open={isMenuOpen}
+        onClose={handleCloseMenu}
+      >
+        <Sheet sx={{ position: 'absolute', top: '0', left: '0', width: '80vw', height: '100vh', zIndex: '1100' }}>
+          testing
+        </Sheet>
+      </ModalUnstyled>
+    </>
+  )
+}
+
+
+const Header = () => {
+  return (
+    <Box
+      sx={{
+        position: 'fixed',
+        backgroundColor: '#5B507A',
+        display: 'flex',
+        flexDirection: 'row',
+        width: '100vw',
+        height: '6rem',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: '900'
+      }}
+    >
+      <HamburgerMenu />
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Link href="/" passHref>
+          <a
+          // style={{ display: 'flex', flexShrink: 1, justifyContent: 'center' }}
+          // className={`flex shrink-0 grow self-end ${className || ''}`}
+          >
+            <img
+              style={{ width: '60vw' }}
+              src="/logo.svg"
+              alt="Auslan Signbank Logo"
+            />
+          </a>
+          {/* <Logo
+            className={styles.logo}
+            imgClassName={styles.logoImg}
+          /> */}
+        </Link>
+      </Box>
+    </Box>
+  )
+}
+
+interface BaseLayoutProps {
+  page: ReactNode,
+}
+export function BaseLayout({ page }: BaseLayoutProps) {
+  return (
+    <div>
+      {/* TODO: put header here */}
+      <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <title>{publicRuntimeConfig.SITE_NAME}</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Header />
+      <Container component="main" maxWidth="lg" sx={{ paddingTop: '7rem' }}>
+        {page}
+      </Container>
+      {/* TODO: put footer here */}
+
+      <Box
+        component="footer"
+        sx={{
+          display: 'flex',
+          bottom: 0,
+          marginTop: "2rem",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "6rem",
+          borderTop: "1px solid $gray-200",
+        }}
+      >
+        <Box
+          component="a"
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "0.5rem",
+          }}
+          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Supported by{' '}
+          <Image
+            src="/monash.png"
+            alt="Monash University Logo"
+            width={110}
+            height={45}
+          />
+        </Box>
+      </Box>
+
+    </div >
+  )
+}
+
+export function Archive_BaseLayout({ children }: props): JSX.Element {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const toggleMenu = () => {
@@ -155,11 +336,13 @@ export function BaseLayout({ children }: props): JSX.Element {
   return (
     <>
       <Head>
+        <meta name="viewport" content="initial-scale=1, width=device-width" />
         <title>{publicRuntimeConfig.SITE_NAME}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="space-between relative flex min-h-screen w-full flex-col overflow-hidden bg-light-cream">
+      <div className={styles.base}>
         <Header toggleMenu={toggleMenu} menuOpen={menuOpen} />
+        {/* TODO: make a proper menu */}
         {menuOpen && (
           <div className="flex flex w-full justify-center bg-custom-green text-cream">
             <div className="flex w-3/4 max-w-6xl bg-custom-green text-cream">
@@ -170,7 +353,7 @@ export function BaseLayout({ children }: props): JSX.Element {
         <div className="mt-8 mb-auto flex w-full justify-center">
           {children}
         </div>
-        <footer className="bottom-0 mt-8 flex h-24 w-full items-center justify-center border-t">
+        <footer className={styles.footer}>
           {/* TODO: add a sitemap or */}
           <a
             className="flex items-center justify-center gap-2"

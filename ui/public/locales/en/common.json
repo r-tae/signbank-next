@@ -31,8 +31,13 @@
       "definition-published": "Published",
       "definition-role": "Role",
       "definition-text": "Text",
-      "add-definition": "Add definition"
+      "add-definition": "Add definition",
+      "morphology-heading": "Morphology",
+      "compound-of-heading": "Compound of",
+      "language-heading": "Language",
+      "proposed-sign-heading": "Proposed new sign"
     },
+    "no-video": "Sorry, this sign doesn't have a video yet.",
     "id-gloss": "ID Gloss",
     "annotation-id-gloss": "Annotation ID Gloss",
     "distribution-heading": "Distribution",
@@ -58,6 +63,15 @@
   "usage.traditional": "traditional",
   "search-placeholder": "Search...",
   "n/a": "N/A",
+  "language-code": {
+    "asf": "Auslan",
+    "asl": "American Sign Language",
+    "bsl": "British Sign Language",
+    "fss": "Finnish-Swedish Sign Language",
+    "fse": "Finnish Sign Language",
+    "swl": "Swedish Sign Language",
+    "dse": "Sign Language of the Netherlands"
+  },
   "human-readable-region-name_AUS": "Australia-wide",
   "human-readable-region-name_NTH": "Northern Dialect",
   "human-readable-region-name_STH": "Southern Dialect",
