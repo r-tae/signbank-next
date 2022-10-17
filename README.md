@@ -1,26 +1,7 @@
 # Signbank Next
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/r-tae/signbank-next/tree/main.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/r-tae/signbank-next/tree/main)
 
-Adding text to test PR workflow
-
-
-## TODO: integration tests that we need
-> TODO: before most integration tests will work we need to seed the database
-- window loads
-- i18n works properly (should test switching between locales eventually, not MVP because Auslan doesn't need it) 
-NOTE: I put some of these in a separate file somewhere in the cypress folder too
-
-Remove some of the configuration files at project root, they're very cluttered
-Try a "production" deployment
-Database seeding
-Database backups with mgob image
-Database schema
-some rest APIs, PATCH for the admin/lexicographer/detail view
-an editing detail view (maybe just add edit buttons to fields for people who can edit)
-Remove homepage
-(well, actually split it into a SSG website, possibly with hugo, but also nextjs would work fine as well
-Consider using a proper UI library, or rolling our own components for reuse across the two
-
+> Note
+> This repository is archived, after some major refactoring Signbank Next will use ReactJS and Elixir. Check out the new codebase at github.com/r-tae/signbank
 
 The latest iteration of Auslan Signbank, built with NextJS.
 
@@ -29,8 +10,6 @@ The latest iteration of Auslan Signbank, built with NextJS.
 This repo builds production Docker images that can be deployed on most cloud services, the run command will need to pass the container a set of environment variables, to be documented, which will configure Signbank for your branding/language/URL.
 
 In addition to this configuration you will also need to provide a MongoDB database which matches the schema that Signbank expects. This schema will be documented by the time that Signbank is ready to go live.
-
-<!-- TODO: flesh out this documentation, and add multiple .md topic specific documents in a /docs folder -->
 
 #### Configuration for deployment will need:
 
